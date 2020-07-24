@@ -47,11 +47,8 @@ class Truck:
         
         for x in self.packagesLoaded:
             self.packagesFinished.append(x)
-            # package = packagesHash.get(x)
-
         
         self.packagesLoaded = []
-        
         print("Finished dropping at hub")
         
         
@@ -72,7 +69,8 @@ class Truck:
         if len(self.packagesLoaded) == 16:
             self.goToHub()
         else:
-            package = self.packagesHash.get(self.packagesRemaining[0].id)
+            # package = self.packagesHash.get(self.packagesRemaining[0].id)
+            # print(package)
             package = self.packagesRemaining[0]
             packageLocation = package.location
             distanceToLocation = searchDistance(self.currentLocation, packageLocation)
@@ -87,24 +85,18 @@ class Truck:
             self.currentTime += datetime.timedelta(hours=timeTaken)
             print("Current Time: " + str(self.currentTime))
             self.currentLocation = packageLocation
+            
+            loadedPackage = package = self.packagesHash.get(self.packagesRemaining[0].id)
+            loadedPackage[8] = "in-route"
+            packagesHash.delete(loadedPackage[0])
+            packagesHash.add(loadedPackage[0], loadedPackage)
+            print(loadedPackage)
             self.loadPackage()
             print("finished loading packages")
-            # print(self.h.get('1')[1])
-            # print(self.currentLocation)
-            # print(str(self.packagesRemaining[0]))
-            # print(self.h.get(str(self.packagesRemaining[0]))[1])
+          
     
     def loadPackage(self):
         print("Loading package: #" + self.packagesRemaining[0].id)
-        # print("Packages Loaded: " + self.packagesRemaining[0])
         self.packagesLoaded.append(self.packagesRemaining.pop(0))
-        # print("")
-        
-        
-        # print(self.packagesLoaded)
-        # print(self.packagesRemaining)
-
-
-        
+      
     
-        

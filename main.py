@@ -47,23 +47,6 @@ with open('locations.csv') as csvfile:
 # print(lookupPackage('2', '2530 S 500 E', 'Salt Lake City', 'UT', '84106', 'EOD', '44', 'pending'))
 
 
-input1 = input("Type x to check status of a package: ")
-if input1 == 'x':
-    packageInput = input("PackageId: ")
-    addressInput = input("address: ")
-    cityInput = input("city: ")
-    stateInput = input("state: ")
-    zipInput = input("zip: ")
-    deliveryInput = input("Delivery Deadline: ")
-    weightInput = input("Weight: ")
-    statusInput = input("Status (Type pending or in-route): ")
-    print(packagesHash.search(packageInput, addressInput, cityInput, stateInput, zipInput, deliveryInput, weightInput, statusInput)[0][1])
-    # print(packagesHash.search('2', '2530 S 500 E', 'Salt Lake City', 'UT', '84106', 'EOD', '44', 'pending'))
-
-
-
-
-
 all_nodes = []
 node_array = []
 node_array_2 = []
@@ -195,38 +178,52 @@ node_array.append(missing_node)
 # print(len(all_nodes))
 
 # Main function
-# truck_1 = Truck(packagesHash, "truck1")
-# def startTruck_1():
+truck_1 = Truck(packagesHash, "truck1")
+def startTruck_1():
     
-#     truck_1.getJob(node_array)
-#     while len(node_array) > 0:
-#         truck_1.goToLocation()
-#     if len(truck_1.packagesLoaded) > 0:
-#         truck_1.goToHub()
+    truck_1.getJob(node_array)
+    while len(node_array) > 0:
+        truck_1.goToLocation()
+    if len(truck_1.packagesLoaded) > 0:
+        truck_1.goToHub()
 
-# truck_2 = Truck(packagesHash, "truck2")
-# def startTruck_2():
+truck_2 = Truck(packagesHash, "truck2")
+def startTruck_2():
     
-#     truck_2.getJob(node_array_2)
-#     while len(node_array_2) > 0:
-#         truck_2.goToLocation()
+    truck_2.getJob(node_array_2)
+    while len(node_array_2) > 0:
+        truck_2.goToLocation()
         
-#     if len(truck_2.packagesLoaded) > 0:
-#         truck_2.goToHub()
+    if len(truck_2.packagesLoaded) > 0:
+        truck_2.goToHub()
 
-# startTruck_1()
-# startTruck_2()
-# totalDistance = truck_1.distance + truck_2.distance
+startTruck_1()
+startTruck_2()
+totalDistance = truck_1.distance + truck_2.distance
 
 
-# finishTime = 0
-# if truck_1.currentTime > truck_2.currentTime:
-#     finishTime = truck_1.currentTime
-# else:
-#     finishTime = truck_2.currentTime
-# print(totalDistance)
-# print(finishTime)
+finishTime = 0
+if truck_1.currentTime > truck_2.currentTime:
+    finishTime = truck_1.currentTime
+else:
+    finishTime = truck_2.currentTime
+print(totalDistance)
+print(finishTime)
 
+
+# Search Input
+input1 = input("Type x to check status of a package: ")
+if input1 == 'x':
+    packageInput = input("PackageId: ")
+    addressInput = input("address: ")
+    cityInput = input("city: ")
+    stateInput = input("state: ")
+    zipInput = input("zip: ")
+    deliveryInput = input("Delivery Deadline: ")
+    weightInput = input("Weight: ")
+    statusInput = input("Status (Type pending or in-route): ")
+    print(packagesHash.search(packageInput, addressInput, cityInput, stateInput, zipInput, deliveryInput, weightInput, statusInput)[0][1])
+    # print(packagesHash.search('2', '2530 S 500 E', 'Salt Lake City', 'UT', '84106', 'EOD', '44', 'pending'))
 
 
 # truck 1 first set
