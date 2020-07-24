@@ -1,12 +1,15 @@
 # Daniel Hinker 001284172
 import csv
+from utils import currentTime
 from hashmap import packagesHash
 from search import searchDistance
 from truck import Truck
 
-speed = 18
-maximum_weight = 16
-time = '8:00'
+
+
+# speed = 18
+# maximum_weight = 16
+# time = '8:00'
 
 
 packagesList = []
@@ -40,16 +43,34 @@ with open('locations.csv') as csvfile:
 
 
 # print(list[0][1])
-# for x in range(1, 41):
-#     packagesRemaining.append(str(x))
+for x in range(1, 41):
+    packagesRemaining.append(str(x))
 
 
-print(packagesRemaining)
-# h.print1()
+# print(packagesRemaining)
+
 truck_1 = Truck(packagesHash)
-truck_1.getJob(['1'])
-truck_1.packagesRemaining
-truck_1.goToLocation()
+truck_1.getJob(packagesRemaining)
+# truck_1.packagesRemaining
+# truck_1.goToLocation()
+
+def recalculate(self):
+    packagesRemaining
+
+while len(packagesRemaining) > 0:
+    truck_1.goToLocation()
+    truck_1.packagesRemaining
+if len(truck_1.packagesLoaded) > 0:
+    truck_1.goToHub()
+
+# Packages only on truck 2
+# 3, 18, 36, 38
+
+# currentDate = datetime.date.today()
+# t1 = datetime.datetime.strptime('Jul 20 08:30:00 +0000 2020','%b %d %H:%M:%S +0000 %Y')
+# print(t1)
+# d = t1 + datetime.timedelta(seconds=300000)
+# print(t1)
 # truck_1.goToLocation()
 # print(h.get('1'))
 
