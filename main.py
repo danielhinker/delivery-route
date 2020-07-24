@@ -1,5 +1,7 @@
 # Daniel Hinker 001284172
 import csv
+import math
+
 from utils import currentTime
 from hashmap import packagesHash
 from search import searchDistance
@@ -39,8 +41,10 @@ with open('locations.csv') as csvfile:
             # packagesList.append()
             packagesHash.add(packageId, [packageId, address, city, state, zip, delivery, mass, notes, status])
       
-
+all_nodes = []
 node_array = []
+node_array_2 = []
+node_array_3 = []
 
 class Node:
     
@@ -51,44 +55,170 @@ class Node:
 
 def getDistance(node):
     return node.distance
-# for x in len(packagesHash.keys()):
-    # print(x)
-    # node_array.append(Node(x, packagesHash[x][0], packagesHash[x][1]))
 
+
+# All packages
 for x in range(1, 41):
     a = packagesHash.get(str(x))
-    node_array.append(Node(a[0], a[1], float(searchDistance('4001 South 700 East', a[1]))))
+    all_nodes.append(Node(a[0], a[1], float(searchDistance('4001 South 700 East', a[1]))))
 
-node_array.sort(key=getDistance)
-# for x in node_array:
-#     print(x.distance)
-# print(packagesHash.map)
 
-for x in range(1, 41):
-    packagesRemaining.append(str(x))
-    # print(packagesHash.get(str(x)))
+# node_array.sort(key=getDistance)
 
 
 
 
-def recalculate(self):
-    print(node_array)
-
-# recalculate()
 
 
+# for x in range(1, 41):
+#     a = packagesHash.get(str(x))
+#     node_array.append(Node(a[0], a[1], float(searchDistance('4001 South 700 East', a[1]))))
 
-
-# Main function
-truck_1 = Truck(packagesHash)
-truck_1.getJob(node_array)
-while len(node_array) > 0:
-    truck_1.goToLocation()
-    # print(truck_1.packagesRemaining)
-if len(truck_1.packagesLoaded) > 0:
-    truck_1.goToHub()
 
 # Packages only on truck 2
 # 3, 18, 36, 38
+
+# Delayed till 9:05am
+# 6, 25, 28, 32
+
+# Has to be delivered before 9:00am
+# 15
+
+# Delivered together
+# 13, 14, 15, 16, 19, 20
+
+# Has to be delivered before 10:30am
+# 6, 13, 14, 16, 20, 25,   29, 30, 31, 34, 37, 40
+# sort then divide in half
+
+for x in [13, 14, 15, 16, 19, 20]:
+    a = packagesHash.get(str(x))
+    for y in all_nodes:
+        if y.id == str(x):
+
+            all_nodes.remove(y)
+    node_array.append(Node(a[0], a[1], float(searchDistance('4001 South 700 East', a[1]))))
+    
+node_array.sort(key=getDistance)
+
+for x in [6,25,28,32]:
+    b = packagesHash.get(str(x))
+
+    for y in all_nodes:
+        if y.id == str(x):
+
+            all_nodes.remove(y)
+    node_array_3.append(Node(a[0], a[1], float(searchDistance('4001 South 700 East', a[1]))))
+
+node_array_3.sort(key=getDistance)
+
+for x in node_array_3:
+    node_array.append(x)
+
+
+
+node_array_3 = []
+
+for y in [29,30,31,34,37,40]:
+    b = packagesHash.get(str(y))
+    for x in all_nodes:
+        if x.id == str(y):
+
+            all_nodes.remove(x)
+    node_array_2.append(Node(b[0], b[1], float(searchDistance('4001 South 700 East', b[1]))))
+
+node_array_2.sort(key=getDistance)
+
+for y in [3,18,36,38]:
+    b = packagesHash.get(str(y))
+    for x in all_nodes:
+        if x.id == str(y):
+
+            all_nodes.remove(x)
+    node_array_3.append(Node(b[0], b[1], float(searchDistance('4001 South 700 East', b[1]))))
+
+node_array_3.sort(key=getDistance)
+
+for y in node_array_3:
+    node_array_2.append(y)
+
+
+node_array_3 = []
+for x in all_nodes:
+    b = packagesHash.get(x.id)
+    node_array_3.append(Node(b[0], b[1], float(searchDistance('4001 South 700 East', b[1]))))
+
+node_array_3.sort(key=getDistance)
+
+
+
+for i, node in enumerate(node_array_3):
+    if i % 2 == 0:
+        node_array.append(node)
+        # node_array_3.remove(node)
+    else:
+        node_array_2.append(node)
+        # node_array_3.remove(node)
+    # print(i)
+
+
+# print(len(node_array_2))
+# print(len(node_array))
+# print(len(all_nodes))
+
+# Main function
+truck_1 = Truck(packagesHash)
+def startTruck_1():
+    
+    truck_1.getJob(node_array)
+    while len(node_array) > 0:
+        truck_1.goToLocation()
+    if len(truck_1.packagesLoaded) > 0:
+        truck_1.goToHub()
+
+truck_2 = Truck(packagesHash)
+def startTruck_2():
+    
+    truck_2.getJob(node_array_2)
+    while len(node_array_2) > 0:
+        truck_2.goToLocation()
+        
+    if len(truck_2.packagesLoaded) > 0:
+        truck_2.goToHub()
+
+startTruck_1()
+startTruck_2()
+totalDistance = truck_1.distance + truck_2.distance
+
+
+finishTime = 0
+if truck_1.currentTime > truck_2.currentTime:
+    finishTime = truck_1.currentTime
+else:
+    finishTime = truck_2.currentTime
+print(totalDistance)
+print(finishTime)
+
+
+
+# truck 1 first set
+# [6,13,14,15, 16, 19, 20]
+
+# truck 2 first set
+# [29,30,31,34,37,40,25]
+
+# truck 1 second set
+# [6,25,28,32]
+
+# truck 2 second set
+#  [3,18,36,38]
+
+# third set is the rest of the packages sorted and split
+
+
+
+# Wrong address till 10:20am
+# 9
+# The wrong delivery address for package #9, Third District Juvenile Court, will be corrected at 10:20 a.m. The correct address is 410 S State St., Salt Lake City, UT 84111.
 
 

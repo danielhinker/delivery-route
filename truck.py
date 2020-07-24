@@ -9,6 +9,7 @@ class Truck:
         self.currentLocation = "4001 South 700 East"
         self.packagesLoaded = []
         self.packagesRemaining = []
+        self.packagesFinished = []
         self.packagesHash = packagesHash
         self.distance = 0.0
         self.speed = 18.0
@@ -33,6 +34,9 @@ class Truck:
         print("Took: " + str(timeTaken) + " hours")
         self.currentTime += datetime.timedelta(hours=timeTaken)
         print("Current Time: " + str(self.currentTime))
+        
+        for x in self.packagesLoaded:
+            self.packagesFinished.append(x)
         self.packagesLoaded = []
 
     def goToLocation(self):
