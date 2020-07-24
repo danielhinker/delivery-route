@@ -8,7 +8,6 @@ from search import searchDistance
 from truck import Truck
 
 
-
 # speed = 18
 # maximum_weight = 16
 # time = '8:00'
@@ -39,14 +38,6 @@ with open('locations.csv') as csvfile:
             status = "pending"
             packagesHash.add(packageId, [packageId, address, city, state, zip, delivery, mass, notes, status])
       
-# def lookupPackage(packageId, address, city, state, zip, delivery, mass, status):
-#     for x in packagesHash:
-#         if [packageId, address, city, state, zip, delivery, mass, status] in x:
-#             return x
-
-# print(lookupPackage('2', '2530 S 500 E', 'Salt Lake City', 'UT', '84106', 'EOD', '44', 'pending'))
-
-
 all_nodes = []
 node_array = []
 node_array_2 = []
@@ -69,18 +60,6 @@ for x in range(1, 41):
     all_nodes.append(Node(a[0], a[1], float(searchDistance('4001 South 700 East', a[1]))))
 
 
-# node_array.sort(key=getDistance)
-
-
-
-
-
-
-# for x in range(1, 41):
-#     a = packagesHash.get(str(x))
-#     node_array.append(Node(a[0], a[1], float(searchDistance('4001 South 700 East', a[1]))))
-
-
 # Packages only on truck 2
 # 3, 18, 36, 38
 
@@ -97,6 +76,21 @@ for x in range(1, 41):
 # 6, 13, 14, 16, 20, 25,   29, 30, 31, 34, 37, 40
 # sort then divide in half
 
+
+# NOTES
+# I manually sorted the packages that had special delivery notes
+# I had three different sets of packages where each set was individually sorted based on its distance from the hub and then appended together
+# I had a hash table to hold the package information
+# I made a Node class to help with sorting packages
+# An adjacency matrix could have also been used instead of the hash map of packages
+# A weighted graph could also have been made based on the distances between each packages but this would take a lot of calculations since there are 40 packages
+# If there are no delivery requirements, a more efficient algorithm would be to recalculate distances every time a package is picked up
+# I tried to do that but only after the packages with the delivery requirements have been delivered
+
+
+
+
+# Efficiency of this is O(n^2) since there are nested arrays
 for x in [13, 14, 15, 16, 19, 20]:
     a = packagesHash.get(str(x))
     for y in all_nodes:
@@ -104,9 +98,12 @@ for x in [13, 14, 15, 16, 19, 20]:
 
             all_nodes.remove(y)
     node_array.append(Node(a[0], a[1], float(searchDistance('4001 South 700 East', a[1]))))
-    
+
+# Efficiency of this sort function is O(n log n)
 node_array.sort(key=getDistance)
 
+
+# Efficiency of this is O(n^2) since it has nested arrays
 for x in [6,25,28,32]:
     b = packagesHash.get(str(x))
 
@@ -116,15 +113,17 @@ for x in [6,25,28,32]:
             all_nodes.remove(y)
     node_array_3.append(Node(b[0], b[1], float(searchDistance('4001 South 700 East', a[1]))))
 
+# Efficiency of this sort function is O(n log n)
 node_array_3.sort(key=getDistance)
 
+# Efficiency of this is O(n) since I have to iterate through an array and append each element to another array
 for x in node_array_3:
     node_array.append(x)
 
 
-
 node_array_3 = []
 
+# Efficiency of this is O(n^2) since it has nested arrays
 for y in [29,30,31,34,37,40]:
     b = packagesHash.get(str(y))
     for x in all_nodes:
@@ -133,8 +132,10 @@ for y in [29,30,31,34,37,40]:
             all_nodes.remove(x)
     node_array_2.append(Node(b[0], b[1], float(searchDistance('4001 South 700 East', b[1]))))
 
+# Efficiency of this sort function is O(n log n)
 node_array_2.sort(key=getDistance)
 
+# Efficiency of this is O(n^2) since it has nested arrays
 for y in [3,18,36,38]:
     b = packagesHash.get(str(y))
     for x in all_nodes:
@@ -143,12 +144,15 @@ for y in [3,18,36,38]:
             all_nodes.remove(x)
     node_array_3.append(Node(b[0], b[1], float(searchDistance('4001 South 700 East', b[1]))))
 
+# Efficiency of this sort function is O(n log n)
 node_array_3.sort(key=getDistance)
 
+# Efficiency of this is O(n) since I have to iterate through an array and append each element to another array
 for y in node_array_3:
     node_array_2.append(y)
 
 
+# Efficiency of this is O(n) since I have to iterate through an array and append each element to another array
 node_array_3 = []
 missing_node = 0
 for x in all_nodes:
@@ -158,18 +162,18 @@ for x in all_nodes:
         b = packagesHash.get(x.id)
         node_array_3.append(Node(b[0], b[1], float(searchDistance('4001 South 700 East', b[1]))))
 
+# Efficiency of this sort function is O(n log n)
 node_array_3.sort(key=getDistance)
 
-
+# Efficiency of this is O(n) since I have to iterate through an array and append each element to another array
+# I decided to use i < 11 since I knew there would be 20 elements left and I wanted to evenly distribute them between the two trucks
 for i, node in enumerate(node_array_3):
     if i < 11:
         node_array.append(node)
-        # node_array_3.remove(node)
     else:
         node_array_2.append(node)
     
-        # node_array_3.remove(node)
-    # print(i)
+# O(1) since it is just appending an element to an array
 node_array.append(missing_node)
 
 
@@ -178,7 +182,7 @@ node_array.append(missing_node)
 # print(len(all_nodes))
 
 # Main function
-truck_1 = Truck(packagesHash, "truck1")
+truck_1 = Truck(packagesHash, "Truck 1")
 def startTruck_1():
     
     truck_1.getJob(node_array)
@@ -187,7 +191,7 @@ def startTruck_1():
     if len(truck_1.packagesLoaded) > 0:
         truck_1.goToHub()
 
-truck_2 = Truck(packagesHash, "truck2")
+truck_2 = Truck(packagesHash, "Truck2")
 def startTruck_2():
     
     truck_2.getJob(node_array_2)
@@ -239,7 +243,6 @@ if input1 == 'x':
 #  [3,18,36,38]
 
 # third set is the rest of the packages sorted and split
-
 
 
 # Wrong address till 10:20am

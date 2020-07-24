@@ -15,7 +15,6 @@ class Truck:
         self.speed = 18.0
         self.currentTime = currentTime
         self.huhLocation = "4001 South 700 East"
-        self.timesToHub = 0
         self.name = name
         
 
@@ -25,18 +24,19 @@ class Truck:
     def getDistance(self, node):
         return node.distance
 
+
     def recalculate(self):
+        # The efficiency of this for block is O(n) since I'm iterating through an array and changing values
         for x in self.packagesRemaining:
-            
-            # b = packagesHash.get(x.id)
             x.distance = float(searchDistance(self.currentLocation, x.location))
+        # This sort function is O(n log n)
         self.packagesRemaining.sort(key=self.getDistance)
 
     def goToHub(self):
         
         print(self.name)
-        print("Current Location: " + self.currentLocation)
         print("Going back to hub at 4001 South 700 East")
+        print("Current Location: " + self.currentLocation)
         
         distanceToLocation = searchDistance(self.currentLocation, self.huhLocation)
         print("Total distance: " + str(self.distance))
@@ -59,27 +59,25 @@ class Truck:
             self.recalculate()
         
         if self.currentTime > datetime.timedelta(hours=10, minutes=20, seconds=00):
-            print("pass time")
             for x in self.packagesRemaining:
                 if x.id == '9':
                     x.location = '410 S State St'
-                    print('found')
+                    print('Corrected address')
                     print(x.location)
-            print("pass time")
         if len(self.packagesLoaded) == 16:
             self.goToHub()
         else:
-            # package = self.packagesHash.get(self.packagesRemaining[0].id)
-            # print(package)
+            
             package = self.packagesRemaining[0]
             packageLocation = package.location
+            print("Going to: " + packageLocation)
             distanceToLocation = searchDistance(self.currentLocation, packageLocation)
             self.distance += float(distanceToLocation)
             timeTaken = float(distanceToLocation) / self.speed
             
             print("Took: " + str(timeTaken) + " hours")
             print("Current Location: " + self.currentLocation)
-            print("Going to: " + packageLocation)
+            
             print("Total distance: " + str(self.distance))
             # print(currentTime)
             self.currentTime += datetime.timedelta(hours=timeTaken)
@@ -92,8 +90,7 @@ class Truck:
             packagesHash.add(loadedPackage[0], loadedPackage)
             print(loadedPackage)
             self.loadPackage()
-            print("finished loading packages")
-          
+            
     
     def loadPackage(self):
         print("Loading package: #" + self.packagesRemaining[0].id)
