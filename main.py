@@ -60,8 +60,8 @@ for x in range(1, 41):
     node_array.append(Node(a[0], a[1], float(searchDistance('4001 South 700 East', a[1]))))
 
 node_array.sort(key=getDistance)
-for x in node_array:
-    print(x.distance)
+# for x in node_array:
+#     print(x.distance)
 # print(packagesHash.map)
 
 for x in range(1, 41):
@@ -80,13 +80,13 @@ def recalculate(self):
 
 
 # Main function
-# truck_1 = Truck(packagesHash)
-# truck_1.getJob(packagesRemaining)
-# while len(packagesRemaining) > 0:
-#     truck_1.goToLocation()
-#     truck_1.packagesRemaining
-# if len(truck_1.packagesLoaded) > 0:
-#     truck_1.goToHub()
+truck_1 = Truck(packagesHash)
+truck_1.getJob(node_array)
+while len(node_array) > 0:
+    truck_1.goToLocation()
+    # print(truck_1.packagesRemaining)
+if len(truck_1.packagesLoaded) > 0:
+    truck_1.goToHub()
 
 # Packages only on truck 2
 # 3, 18, 36, 38

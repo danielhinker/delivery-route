@@ -19,7 +19,8 @@ class Truck:
         self.packagesRemaining = packagesList
 
     
-
+    def recalculate(self):
+        pass
 
     def goToHub(self):
         
@@ -38,7 +39,7 @@ class Truck:
         if len(self.packagesLoaded) == 16:
             self.goToHub()
         else:
-            package = self.packagesHash.get(str(self.packagesRemaining[0]))
+            package = self.packagesHash.get(self.packagesRemaining[0].id)
             packageLocation = package[1]
             distanceToLocation = searchDistance(self.currentLocation, packageLocation)
             self.distance += float(distanceToLocation)
@@ -59,14 +60,14 @@ class Truck:
             # print(self.h.get(str(self.packagesRemaining[0]))[1])
     
     def loadPackage(self):
-        print("Loading package: #" + self.packagesRemaining[0])
+        print("Loading package: #" + self.packagesRemaining[0].id)
         # print("Packages Loaded: " + self.packagesRemaining[0])
         self.packagesLoaded.append(self.packagesRemaining.pop(0))
         # print("")
         
         
-        print(self.packagesLoaded)
-        print(self.packagesRemaining)
+        # print(self.packagesLoaded)
+        # print(self.packagesRemaining)
 
 
         
