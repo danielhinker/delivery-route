@@ -13,20 +13,15 @@ def searchDistance(start, end):
         for i, row in enumerate(reader):
             
             if i==0:
-                
                 for j, column in enumerate(row):
                     if end in column:
-                        columnIndex = j
-                        
+                        columnIndex = j   
             else:
-                for j, rowElement in enumerate(row):
-                
-                    if start in rowElement:
-                        
+                for j, rowElement in enumerate(row):   
+                    if start in rowElement:                      
                         rowIndex = j
                         if row[columnIndex] == '':
                             return searchDistance(end, start)
-
                         else:
                             return row[columnIndex]
             

@@ -8,17 +8,6 @@ from search import searchDistance
 from truck import Truck
 
 
-# speed = 18
-# maximum_weight = 16
-# time = '8:00'
-
-
-packagesList = []
-distance_list = []
-packagesRemaining = []
-
-
-
 # Reading and parsing of the CSV file containing the locations to add it into the hash table
 with open('locations.csv') as csvfile:
     reader = csv.reader(csvfile)
@@ -75,6 +64,7 @@ for x in range(1, 41):
 
 
 
+# Truck 1 first set
 # Efficiency of this is O(n^2) since there are nested arrays
 for x in [13, 14, 15, 16, 19, 20]:
     a = packagesHash.get(str(x))
@@ -87,7 +77,7 @@ for x in [13, 14, 15, 16, 19, 20]:
 # Efficiency of this sort function is O(n log n)
 node_array.sort(key=getDistance)
 
-
+# Truck 1 second set
 # Efficiency of this is O(n^2) since it has nested arrays
 for x in [6,25,28,32]:
     b = packagesHash.get(str(x))
@@ -108,6 +98,7 @@ for x in node_array_3:
 
 node_array_3 = []
 
+# Truck 2 first set
 # Efficiency of this is O(n^2) since it has nested arrays
 for y in [29,30,31,34,37,40]:
     b = packagesHash.get(str(y))
@@ -120,6 +111,7 @@ for y in [29,30,31,34,37,40]:
 # Efficiency of this sort function is O(n log n)
 node_array_2.sort(key=getDistance)
 
+# Truck 2 second set
 # Efficiency of this is O(n^2) since it has nested arrays
 for y in [3,18,36,38]:
     b = packagesHash.get(str(y))
@@ -136,7 +128,7 @@ node_array_3.sort(key=getDistance)
 for y in node_array_3:
     node_array_2.append(y)
 
-
+# Third set
 # Efficiency of this is O(n) since I have to iterate through an array and append each element to another array
 node_array_3 = []
 missing_node = 0
@@ -149,6 +141,7 @@ for x in all_nodes:
 
 # Efficiency of this sort function is O(n log n)
 node_array_3.sort(key=getDistance)
+
 
 # Efficiency of this is O(n) since I have to iterate through an array and append each element to another array
 # I decided to use i < 11 since I knew there would be 20 elements left and I wanted to evenly distribute them between the two trucks
@@ -165,26 +158,29 @@ node_array.append(missing_node)
 # print(len(node_array_2))
 # print(len(node_array))
 # print(len(all_nodes))
-
+originalAmount = len(node_array)
+originalAmount2 = len(node_array_2)
 # Main function
 truck_1 = Truck(packagesHash, "Truck 1")
 def startTruck_1():
     
     truck_1.getJob(node_array)
-    while len(node_array) > 0:
-        truck_1.goToLocation()
-    if len(truck_1.packagesLoaded) > 0:
-        truck_1.goToHub()
+    while len(truck_1.packagesFinished) != originalAmount:
+        if len(truck_1.packagesRemaining) != 0:
+            truck_1.goToLocation()
+        else:
+            truck_1.goToHub()
 
-truck_2 = Truck(packagesHash, "Truck2")
+
+truck_2 = Truck(packagesHash, "Truck 2")
 def startTruck_2():
     
     truck_2.getJob(node_array_2)
-    while len(node_array_2) > 0:
-        truck_2.goToLocation()
-        
-    if len(truck_2.packagesLoaded) > 0:
-        truck_2.goToHub()
+    while len(truck_2.packagesFinished) != originalAmount2:
+        if len(truck_2.packagesRemaining) != 0:
+            truck_2.goToLocation()
+        else:
+            truck_2.goToHub()
 
 startTruck_1()
 startTruck_2()
@@ -232,6 +228,7 @@ while input1 != 'end':
         print("----------------------------------")
 
 
+# Fulfilled
 # Packages only on truck 2
 # 3, 18, 36, 38
 
