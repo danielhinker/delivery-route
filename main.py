@@ -108,7 +108,7 @@ for x in [6,25,28,32]:
         if y.id == str(x):
 
             all_nodes.remove(y)
-    node_array_3.append(Node(a[0], a[1], float(searchDistance('4001 South 700 East', a[1]))))
+    node_array_3.append(Node(b[0], b[1], float(searchDistance('4001 South 700 East', a[1]))))
 
 node_array_3.sort(key=getDistance)
 
@@ -144,22 +144,27 @@ for y in node_array_3:
 
 
 node_array_3 = []
+missing_node = 0
 for x in all_nodes:
-    b = packagesHash.get(x.id)
-    node_array_3.append(Node(b[0], b[1], float(searchDistance('4001 South 700 East', b[1]))))
+    if x.id == '9':
+        missing_node = x
+    else:
+        b = packagesHash.get(x.id)
+        node_array_3.append(Node(b[0], b[1], float(searchDistance('4001 South 700 East', b[1]))))
 
 node_array_3.sort(key=getDistance)
 
 
-
 for i, node in enumerate(node_array_3):
-    if i % 2 == 0:
+    if i < 11:
         node_array.append(node)
         # node_array_3.remove(node)
     else:
         node_array_2.append(node)
+    
         # node_array_3.remove(node)
     # print(i)
+node_array.append(missing_node)
 
 
 # print(len(node_array_2))
@@ -167,7 +172,7 @@ for i, node in enumerate(node_array_3):
 # print(len(all_nodes))
 
 # Main function
-truck_1 = Truck(packagesHash)
+truck_1 = Truck(packagesHash, "truck1")
 def startTruck_1():
     
     truck_1.getJob(node_array)
@@ -176,7 +181,7 @@ def startTruck_1():
     if len(truck_1.packagesLoaded) > 0:
         truck_1.goToHub()
 
-truck_2 = Truck(packagesHash)
+truck_2 = Truck(packagesHash, "truck2")
 def startTruck_2():
     
     truck_2.getJob(node_array_2)
