@@ -24,7 +24,7 @@ with open('locations.csv') as csvfile:
     counter = 0
     for i, row in enumerate(reader):
         # if line_count == 0:
-        
+        # print(i)
         if i != 0:
             packageId = row[0]
             address = row[1]
@@ -38,40 +38,57 @@ with open('locations.csv') as csvfile:
             # status = row[8]
             # packagesList.append()
             packagesHash.add(packageId, [packageId, address, city, state, zip, delivery, mass, notes, status])
-        # counter += 1
+      
 
+node_array = []
 
+class Node:
+    
+    def __init__(self, id, location, distance):
+        self.id = id
+        self.location = location
+        self.distance = distance
 
-# print(list[0][1])
+def getDistance(node):
+    return node.distance
+# for x in len(packagesHash.keys()):
+    # print(x)
+    # node_array.append(Node(x, packagesHash[x][0], packagesHash[x][1]))
+
+for x in range(1, 41):
+    a = packagesHash.get(str(x))
+    node_array.append(Node(a[0], a[1], float(searchDistance('4001 South 700 East', a[1]))))
+
+node_array.sort(key=getDistance)
+for x in node_array:
+    print(x.distance)
+# print(packagesHash.map)
+
 for x in range(1, 41):
     packagesRemaining.append(str(x))
+    # print(packagesHash.get(str(x)))
 
 
-# print(packagesRemaining)
 
-truck_1 = Truck(packagesHash)
-truck_1.getJob(packagesRemaining)
-# truck_1.packagesRemaining
-# truck_1.goToLocation()
 
 def recalculate(self):
-    packagesRemaining
+    print(node_array)
 
-while len(packagesRemaining) > 0:
-    truck_1.goToLocation()
-    truck_1.packagesRemaining
-if len(truck_1.packagesLoaded) > 0:
-    truck_1.goToHub()
+# recalculate()
+
+
+
+
+# Main function
+# truck_1 = Truck(packagesHash)
+# truck_1.getJob(packagesRemaining)
+# while len(packagesRemaining) > 0:
+#     truck_1.goToLocation()
+#     truck_1.packagesRemaining
+# if len(truck_1.packagesLoaded) > 0:
+#     truck_1.goToHub()
 
 # Packages only on truck 2
 # 3, 18, 36, 38
-
-# currentDate = datetime.date.today()
-# t1 = datetime.datetime.strptime('Jul 20 08:30:00 +0000 2020','%b %d %H:%M:%S +0000 %Y')
-# print(t1)
-# d = t1 + datetime.timedelta(seconds=300000)
-# print(t1)
-# truck_1.goToLocation()
-# print(h.get('1'))
 
 

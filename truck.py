@@ -18,6 +18,8 @@ class Truck:
     def getJob(self, packagesList):
         self.packagesRemaining = packagesList
 
+    
+
 
     def goToHub(self):
         

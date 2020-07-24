@@ -2,7 +2,7 @@
 
 class PackagesHashMap:
         def __init__(self):
-                self.size = 2500
+                self.size = 250
                 self.map = [None] * self.size
 		
         def _get_hash(self, key):

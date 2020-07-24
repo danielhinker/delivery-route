@@ -15,7 +15,6 @@ class Node:
     def __init__(self, name, distance, weight):
         self.name = name
         self.distance = distance
-        self.weight = weight
 
 for x in dict1:
     
