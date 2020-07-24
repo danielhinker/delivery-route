@@ -1,7 +1,7 @@
 # Daniel Hinker 001284172
 import csv
 import math
-
+import datetime
 from utils import currentTime
 from hashmap import packagesHash
 from search import searchDistance
@@ -36,7 +36,8 @@ with open('locations.csv') as csvfile:
             mass = row[6]
             notes = row[7]
             status = "pending"
-            packagesHash.add(packageId, [packageId, address, city, state, zip, delivery, mass, notes, status])
+            timeDelivered = 0
+            packagesHash.add(packageId, [packageId, address, city, state, zip, delivery, mass, notes, status, timeDelivered])
       
 all_nodes = []
 node_array = []
@@ -211,23 +212,40 @@ if truck_1.currentTime > truck_2.currentTime:
     finishTime = truck_1.currentTime
 else:
     finishTime = truck_2.currentTime
-print(totalDistance)
-print(finishTime)
+
+print("-------------------------")
+print("All packages have been delivered")
+print("Total Distance driven: " + str(totalDistance) + " miles")
+print("Time Finished: " + str(finishTime))
 
 
-# Search Input
-input1 = input("Type x to check status of a package: ")
-if input1 == 'x':
-    packageInput = input("PackageId: ")
-    addressInput = input("address: ")
-    cityInput = input("city: ")
-    stateInput = input("state: ")
-    zipInput = input("zip: ")
-    deliveryInput = input("Delivery Deadline: ")
-    weightInput = input("Weight: ")
-    statusInput = input("Status (Type pending or in-route): ")
-    print(packagesHash.search(packageInput, addressInput, cityInput, stateInput, zipInput, deliveryInput, weightInput, statusInput)[0][1])
-    # print(packagesHash.search('2', '2530 S 500 E', 'Salt Lake City', 'UT', '84106', 'EOD', '44', 'pending'))
+# Input
+input1 = ''
+while input1 != 'end':
+    input1 = input("Enter 1,2,3 to see packages between 8:35-9:25am, 9:35-10:25am, 12:03-1:12pm\nType x to check status of a package or type end to stop program ")
+    if input1 == 'x':
+        packageInput = input("PackageId: ")
+        addressInput = input("address: ")
+        cityInput = input("city: ")
+        stateInput = input("state: ")
+        zipInput = input("zip: ")
+        deliveryInput = input("Delivery Deadline: ")
+        weightInput = input("Weight: ")
+        statusInput = input("Status (Type pending or in-route): ")
+        print(packagesHash.search(packageInput, addressInput, cityInput, stateInput, zipInput, deliveryInput, weightInput, statusInput)[0][1])
+        # print(packagesHash.search('2', '2530 S 500 E', 'Salt Lake City', 'UT', '84106', 'EOD', '44', 'pending'))
+    elif input1 == "1":
+        print("Packages between 8:35am and 9:25am")
+        packagesHash.timeDelivered(datetime.timedelta(hours=8, minutes=35, seconds=00), datetime.timedelta(hours=9, minutes=25, seconds=00))
+        print("----------------------------------")
+    elif input1 == "2":
+        print("Packages between 9:35am and 10:25am")
+        packagesHash.timeDelivered(datetime.timedelta(hours=9, minutes=35, seconds=00), datetime.timedelta(hours=10, minutes=25, seconds=00))
+        print("----------------------------------")
+    elif input1 == "3":
+        print("Packages between 12:03pm and 1:12pm")
+        packagesHash.timeDelivered(datetime.timedelta(hours=12, minutes=3, seconds=00), datetime.timedelta(hours=13, minutes=12, seconds=00))
+        print("----------------------------------")
 
 
 # truck 1 first set

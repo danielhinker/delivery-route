@@ -63,6 +63,10 @@ class Truck:
                 if x.id == '9':
                     x.location = '410 S State St'
                     print('Corrected address')
+                    loadedPackage = self.packagesHash.get(self.packagesRemaining[0].id)
+                    loadedPackage[1] = x.location
+                    packagesHash.delete(loadedPackage[0])
+                    packagesHash.add(loadedPackage[0], loadedPackage)
                     print(x.location)
         if len(self.packagesLoaded) == 16:
             self.goToHub()
@@ -84,8 +88,9 @@ class Truck:
             print("Current Time: " + str(self.currentTime))
             self.currentLocation = packageLocation
             
-            loadedPackage = package = self.packagesHash.get(self.packagesRemaining[0].id)
+            loadedPackage = self.packagesHash.get(self.packagesRemaining[0].id)
             loadedPackage[8] = "in-route"
+            loadedPackage[9] = self.currentTime
             packagesHash.delete(loadedPackage[0])
             packagesHash.add(loadedPackage[0], loadedPackage)
             print(loadedPackage)
