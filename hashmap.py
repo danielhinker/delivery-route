@@ -58,8 +58,11 @@ class PackagesHashMap:
         def timeDelivered(self, timeStart, timeEnd):
                 for x in range(1, 41):
                         package = self.get(str(x))
+                        # if package[9] < timeStart
                         if package[9] > timeStart and package[9] < timeEnd:
+                                package[8] = "delivered"
                                 print(package)
+                        
 	
 
 packagesHash = PackagesHashMap()

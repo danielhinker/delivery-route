@@ -37,7 +37,8 @@ with open('locations.csv') as csvfile:
             notes = row[7]
             status = "pending"
             timeDelivered = 0
-            packagesHash.add(packageId, [packageId, address, city, state, zip, delivery, mass, notes, status, timeDelivered])
+            timePickedUp = 0
+            packagesHash.add(packageId, [packageId, address, city, state, zip, delivery, mass, notes, status, timeDelivered, timePickedUp])
       
 all_nodes = []
 node_array = []
@@ -59,23 +60,6 @@ def getDistance(node):
 for x in range(1, 41):
     a = packagesHash.get(str(x))
     all_nodes.append(Node(a[0], a[1], float(searchDistance('4001 South 700 East', a[1]))))
-
-
-# Packages only on truck 2
-# 3, 18, 36, 38
-
-# Delayed till 9:05am
-# 6, 25, 28, 32
-
-# Has to be delivered before 9:00am
-# 15
-
-# Delivered together
-# 13, 14, 15, 16, 19, 20
-
-# Has to be delivered before 10:30am
-# 6, 13, 14, 16, 20, 25,   29, 30, 31, 34, 37, 40
-# sort then divide in half
 
 
 # NOTES
@@ -247,6 +231,22 @@ while input1 != 'end':
         packagesHash.timeDelivered(datetime.timedelta(hours=12, minutes=3, seconds=00), datetime.timedelta(hours=13, minutes=12, seconds=00))
         print("----------------------------------")
 
+
+# Packages only on truck 2
+# 3, 18, 36, 38
+
+# Delayed till 9:05am
+# 6, 25, 28, 32
+
+# Has to be delivered before 9:00am
+# 15
+
+# Delivered together
+# 13, 14, 15, 16, 19, 20
+
+# Has to be delivered before 10:30am
+# 6, 13, 14, 16, 20, 25,   29, 30, 31, 34, 37, 40
+# sort then divide in half
 
 # truck 1 first set
 # [6,13,14,15, 16, 19, 20]

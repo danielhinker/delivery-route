@@ -39,6 +39,7 @@ class Truck:
         print("Current Location: " + self.currentLocation)
         
         distanceToLocation = searchDistance(self.currentLocation, self.huhLocation)
+        self.distance += float(distanceToLocation)
         print("Total distance: " + str(self.distance))
         timeTaken = float(distanceToLocation) / self.speed
         print("Took: " + str(timeTaken) + " hours")
@@ -47,7 +48,16 @@ class Truck:
         
         for x in self.packagesLoaded:
             self.packagesFinished.append(x)
+            print("Delivering package: #" + x.id)
+            # print(x.id)
+            deliveredPackage = self.packagesHash.get(x.id)
+            deliveredPackage[8] = "delivered"
+            deliveredPackage[9] = self.currentTime
+            packagesHash.delete(deliveredPackage[0])
+            packagesHash.add(deliveredPackage[0], deliveredPackage)
         
+        self.currentLocation = self.huhLocation
+
         self.packagesLoaded = []
         print("Finished dropping at hub")
         
@@ -55,8 +65,8 @@ class Truck:
 
     def goToLocation(self):
         print(self.name)
-        if len(self.packagesRemaining) < 11:
-            self.recalculate()
+        # if len(self.packagesRemaining) < 11:
+        self.recalculate()
         
         if self.currentTime > datetime.timedelta(hours=10, minutes=20, seconds=00):
             for x in self.packagesRemaining:
@@ -68,7 +78,8 @@ class Truck:
                     packagesHash.delete(loadedPackage[0])
                     packagesHash.add(loadedPackage[0], loadedPackage)
                     print(x.location)
-        if len(self.packagesLoaded) == 16:
+                    
+        if len(self.packagesLoaded) == 10:
             self.goToHub()
         else:
             
@@ -90,9 +101,10 @@ class Truck:
             
             loadedPackage = self.packagesHash.get(self.packagesRemaining[0].id)
             loadedPackage[8] = "in-route"
-            loadedPackage[9] = self.currentTime
+            loadedPackage[10] = self.currentTime
             packagesHash.delete(loadedPackage[0])
             packagesHash.add(loadedPackage[0], loadedPackage)
+
             print(loadedPackage)
             self.loadPackage()
             
