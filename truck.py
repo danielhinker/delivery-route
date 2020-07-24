@@ -49,7 +49,8 @@ class Truck:
         print("Current Time: " + str(self.currentTime))
         print("Total distance: " + str(self.distance))
         # print("Took: " + str(timeTaken) + " hours")
-            
+        
+        self.currentLocation = endLocation
         if endLocation == self.hubLocation:
             print("Finished going to hub")
         else:
@@ -65,7 +66,7 @@ class Truck:
         for x in self.packagesLoaded:
             self.packagesFinished.append(x)
 
-            # print("Delivering package: #" + x.id)
+            print("Delivering package: #" + x.id)
             
             # Fixes hashmap
             # deliveredPackage = self.packagesHash.get(x.id)
@@ -75,7 +76,7 @@ class Truck:
             # packagesHash.add(deliveredPackage[0], deliveredPackage)
         
         
-
+        
         self.packagesLoaded = []
         
 
