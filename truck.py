@@ -47,7 +47,11 @@ class Truck:
         
         for x in self.packagesLoaded:
             self.packagesFinished.append(x)
+            # package = packagesHash.get(x)
+
+        
         self.packagesLoaded = []
+        
         print("Finished dropping at hub")
         
         
@@ -68,7 +72,7 @@ class Truck:
         if len(self.packagesLoaded) == 16:
             self.goToHub()
         else:
-            # package = self.packagesHash.get(self.packagesRemaining[0].id)
+            package = self.packagesHash.get(self.packagesRemaining[0].id)
             package = self.packagesRemaining[0]
             packageLocation = package.location
             distanceToLocation = searchDistance(self.currentLocation, packageLocation)

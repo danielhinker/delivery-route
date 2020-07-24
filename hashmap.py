@@ -57,6 +57,15 @@ class PackagesHashMap:
                 for item in self.map:
                         if item is not None:
                                 print(str(item))
+        
+        def search(self, packageId, address, city, state, zip, delivery, mass, status):
+                for item in self.map:
+                        if item is not None:
+                                # if ['2', '2530 S 500 E', 'Salt Lake City', 'UT', '84106', 'EOD', '44', 'pending'] in item:
+                                # return item[0][1][0]
+                                if item[0][1][0] == packageId and item[0][1][1] == address and item[0][1][2] == city and item[0][1][3] == state and item[0][1][4] == zip and item[0][1][5] == delivery and item[0][1][6] == mass and item[0][1][8] == status:
+                                        return item
+
 			
 
 packagesHash = PackagesHashMap()
