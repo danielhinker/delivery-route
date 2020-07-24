@@ -14,7 +14,7 @@ class Truck:
         self.distance = 0.0
         self.speed = 18.0
         self.currentTime = currentTime
-        self.huhLocation = "4001 South 700 East"
+        self.hubLocation = "4001 South 700 East"
         self.name = name
         
 
@@ -32,35 +32,51 @@ class Truck:
         # This sort function is O(n log n)
         self.packagesRemaining.sort(key=self.getDistance)
 
-    def goToHub(self):
-        
+    def drive(self, startLocation, endLocation):
         print(self.name)
-        print("Going back to hub at 4001 South 700 East")
-        print("Current Location: " + self.currentLocation)
-        
-        distanceToLocation = searchDistance(self.currentLocation, self.huhLocation)
+        print("Current Location: " + startLocation)
+        if endLocation == self.hubLocation:
+            print("Going back to hub at 4001 South 700 East")
+            
+        else:
+            print("Going to: " + endLocation)
+
+        distanceToLocation = searchDistance(startLocation, endLocation)
         self.distance += float(distanceToLocation)
-        print("Total distance: " + str(self.distance))
+
         timeTaken = float(distanceToLocation) / self.speed
-        print("Took: " + str(timeTaken) + " hours")
         self.currentTime += datetime.timedelta(hours=timeTaken)
         print("Current Time: " + str(self.currentTime))
+        print("Total distance: " + str(self.distance))
+        # print("Took: " + str(timeTaken) + " hours")
+            
+        if endLocation == self.hubLocation:
+            print("Finished going to hub")
+        else:
+            print("Finished delivering package")
+
+
+    def goToHub(self):
         
+        # package = self.packagesRemaining[0]
+        # packageLocation = package.location
+        self.drive(self.currentLocation, self.hubLocation)
+
         for x in self.packagesLoaded:
             self.packagesFinished.append(x)
-            print("Delivering package: #" + x.id)
-            # print(x.id)
-            deliveredPackage = self.packagesHash.get(x.id)
-            deliveredPackage[8] = "delivered"
-            deliveredPackage[9] = self.currentTime
-            packagesHash.delete(deliveredPackage[0])
-            packagesHash.add(deliveredPackage[0], deliveredPackage)
+
+            # print("Delivering package: #" + x.id)
+            
+            # Fixes hashmap
+            # deliveredPackage = self.packagesHash.get(x.id)
+            # deliveredPackage[8] = "delivered"
+            # deliveredPackage[9] = self.currentTime
+            # packagesHash.delete(deliveredPackage[0])
+            # packagesHash.add(deliveredPackage[0], deliveredPackage)
         
-        self.currentLocation = self.huhLocation
+        
 
         self.packagesLoaded = []
-        print("Finished dropping at hub")
-        
         
 
     def goToLocation(self):
@@ -78,39 +94,29 @@ class Truck:
                     packagesHash.delete(loadedPackage[0])
                     packagesHash.add(loadedPackage[0], loadedPackage)
                     print(x.location)
-                    
-        if len(self.packagesLoaded) == 10:
+
+        if len(self.packagesLoaded) == 16:
             self.goToHub()
         else:
             
             package = self.packagesRemaining[0]
             packageLocation = package.location
-            print("Going to: " + packageLocation)
-            distanceToLocation = searchDistance(self.currentLocation, packageLocation)
-            self.distance += float(distanceToLocation)
-            timeTaken = float(distanceToLocation) / self.speed
             
-            print("Took: " + str(timeTaken) + " hours")
-            print("Current Location: " + self.currentLocation)
+            self.drive(self.currentLocation, packageLocation)
             
-            print("Total distance: " + str(self.distance))
-            # print(currentTime)
-            self.currentTime += datetime.timedelta(hours=timeTaken)
-            print("Current Time: " + str(self.currentTime))
-            self.currentLocation = packageLocation
-            
-            loadedPackage = self.packagesHash.get(self.packagesRemaining[0].id)
-            loadedPackage[8] = "in-route"
-            loadedPackage[10] = self.currentTime
-            packagesHash.delete(loadedPackage[0])
-            packagesHash.add(loadedPackage[0], loadedPackage)
+            # Fixes hashmap
+            # loadedPackage = self.packagesHash.get(self.packagesRemaining[0].id)
+            # loadedPackage[8] = "in-route"
+            # loadedPackage[10] = self.currentTime
+            # packagesHash.delete(loadedPackage[0])
+            # packagesHash.add(loadedPackage[0], loadedPackage)
 
-            print(loadedPackage)
-            self.loadPackage()
+            # print(loadedPackage)
+            self.deliverPackage()
             
     
-    def loadPackage(self):
-        print("Loading package: #" + self.packagesRemaining[0].id)
+    def deliverPackage(self):
+        print("Delivering package: #" + self.packagesRemaining[0].id)
         self.packagesLoaded.append(self.packagesRemaining.pop(0))
       
     
