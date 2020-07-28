@@ -111,7 +111,12 @@ class Truck:
         
     
     def deliverPackage(self):
-        print("Delivering package: #" + self.packagesRemaining[0].id)
+        if len(self.packagesRemaining[0].id) == 1:
+            print("Delivering package: ##0" + self.packagesRemaining[0].id)
+        else:
+            print("Delivering package: ##" + self.packagesRemaining[0].id)
+        
+        
         self.packagesFinished.append(self.packagesRemaining.pop(0))
         print(self.currentTime)
         print("Finished delivering package")

@@ -99,7 +99,7 @@ node_array_3 = []
 addPackages([29,30,31], node_array_2)
 
 # Truck 2 second set
-addPackages([], node_array_3)
+# addPackages([], node_array_3)
 
 
 # Efficiency of this is O(n) since I have to iterate through an array and append each element to another array
