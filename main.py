@@ -3,7 +3,7 @@ import csv
 import math
 import datetime
 
-from utils import currentTime
+from utils import currentTime, Node
 from hashmap import packagesHash
 from search import searchDistance
 from truck import Truck
@@ -35,12 +35,7 @@ node_array = []
 node_array_2 = []
 node_array_3 = []
 
-class Node:
-    
-    def __init__(self, id, location, distance):
-        self.id = id
-        self.location = location
-        self.distance = distance
+
 
 def getDistance(node):
     return node.distance
