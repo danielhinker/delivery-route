@@ -96,13 +96,10 @@ for x in node_array_3:
 node_array_3 = []
 
 # Truck 2 first set
-
-
 addPackages([29,30,31], node_array_2)
 
 # Truck 2 second set
-
-addPackages([3,18,36,38], node_array_3)
+addPackages([], node_array_3)
 
 
 # Efficiency of this is O(n) since I have to iterate through an array and append each element to another array
@@ -117,12 +114,10 @@ for x in all_nodes:
     if x.id == '9':
         missing_node = x
     else:
-        b = packagesHash.get(x.id)
-        node_array_3.append(Node(b[0], b[1], float(searchDistance('4001 South 700 East', b[1]))))
+        node_array_3.append(x)
 
 # Efficiency of this sort function is O(n log n)
 node_array_3.sort(key=getDistance)
-
 
 # Efficiency of this is O(n) since I have to iterate through an array and append each element to another array
 # I decided to use i < 11 since I knew there would be 20 elements left and I wanted to evenly distribute them between the two trucks
@@ -135,10 +130,6 @@ for i, node in enumerate(node_array_3):
 # O(1) since it is just appending an element to an array
 node_array.append(missing_node)
 
-
-# print(len(node_array_2))
-# print(len(node_array))
-# print(len(all_nodes))
 originalAmount = len(node_array)
 originalAmount2 = len(node_array_2)
 
@@ -167,7 +158,6 @@ def startTruck_2():
 startTruck_1()
 startTruck_2()
 totalDistance = truck_1.distance + truck_2.distance
-
 
 finishTime = 0
 if truck_1.currentTime > truck_2.currentTime:

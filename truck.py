@@ -40,15 +40,12 @@ class Truck:
             print("Going back to hub at 4001 South 700 East") 
         else:
             print("Going to: " + endLocation)
-
         distanceToLocation = searchDistance(startLocation, endLocation)
         self.distance += float(distanceToLocation)
         timeTaken = float(distanceToLocation) / self.speed
         self.currentTime += datetime.timedelta(hours=timeTaken)
         print("Current Time: " + str(self.currentTime))
         print("Total distance: " + str(self.distance))
-        # print("Took: " + str(timeTaken) + " hours")
-        
         self.currentLocation = endLocation
         
 
@@ -78,29 +75,25 @@ class Truck:
                 if x.id == '9':
                     x.location = '410 S State St'
                     print('Corrected address')
-                    loadedPackage = self.packagesHash.get(self.packagesRemaining[0].id)
-                    loadedPackage[1] = x.location
-                    packagesHash.delete(loadedPackage[0])
-                    packagesHash.add(loadedPackage[0], loadedPackage)
+                    # loadedPackage = self.packagesHash.get(self.packagesRemaining[0].id)
+                    # loadedPackage[1] = x.location
+                    # packagesHash.delete(loadedPackage[0])
+                    # packagesHash.add(loadedPackage[0], loadedPackage)
         if self.currentTime > datetime.timedelta(hours=9, minutes=5, seconds=00):
             for x in self.packagesRemaining:
                 if x.id == '6' or x.id == '25' or x.id == '28' or x.id == '32':
                     # x.location = '410 S State St'
                     # print('Corrected address')
-                    loadedPackage = self.packagesHash.get(self.packagesRemaining[0].id)
+                    loadedPackage = x
                     # loadedPackage[1] = x.location
-                    packagesHash.delete(loadedPackage[0])
-                    packagesHash.add(loadedPackage[0], loadedPackage)
+                    # packagesHash.delete(loadedPackage.id)
+                    # packagesHash.add(loadedPackage.i, loadedPackage)
                 
         
 
     def goToLocation(self):
         self.checkNewPackages()
         self.recalculate()
-        
-        
-        #             print(x.location)
-            
         package = self.packagesRemaining[0]
         packageLocation = package.location
         
@@ -119,9 +112,7 @@ class Truck:
     
     def deliverPackage(self):
         print("Delivering package: #" + self.packagesRemaining[0].id)
-        # self.packagesLoaded.append(self.packagesRemaining.pop(0))
-        a = self.packagesRemaining.pop(0)
-        self.packagesFinished.append(a)
+        self.packagesFinished.append(self.packagesRemaining.pop(0))
         print(self.currentTime)
         print("Finished delivering package")
       
