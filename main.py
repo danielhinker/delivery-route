@@ -2,6 +2,7 @@
 import csv
 import math
 import datetime
+
 from utils import currentTime
 from hashmap import packagesHash
 from search import searchDistance
@@ -28,7 +29,7 @@ with open('locations.csv') as csvfile:
             timeDelivered = 0
             timePickedUp = 0
             packagesHash.add(packageId, [packageId, address, city, state, zip, delivery, mass, notes, status, timeDelivered, timePickedUp])
-      
+       
 all_nodes = []
 node_array = []
 node_array_2 = []
@@ -62,34 +63,30 @@ for x in range(1, 41):
 # I tried to do that but only after the packages with the delivery requirements have been delivered
 
 
+def addPackages(slice, nodeArray):
+    # Efficiency of this is O(n^2) since it has nested arrays
+    for x in slice:
+        a = packagesHash.get(str(x))
+        for y in all_nodes:
+            if y.id == str(x):
+                all_nodes.remove(y)
+        nodeArray.append(Node(a[0], a[1], float(searchDistance('4001 South 700 East', a[1]))))
+
+    # Efficiency of this sort function is O(n log n)
+    nodeArray.sort(key=getDistance)
+
 
 
 # Truck 1 first set
-# Efficiency of this is O(n^2) since there are nested arrays
-for x in [13, 14, 15, 16, 19, 20]:
-    a = packagesHash.get(str(x))
-    for y in all_nodes:
-        if y.id == str(x):
 
-            all_nodes.remove(y)
-    node_array.append(Node(a[0], a[1], float(searchDistance('4001 South 700 East', a[1]))))
+addPackages([13,14,15,16,19,20], node_array)
 
-# Efficiency of this sort function is O(n log n)
-node_array.sort(key=getDistance)
 
 # Truck 1 second set
-# Efficiency of this is O(n^2) since it has nested arrays
-for x in [6,25,28,32]:
-    b = packagesHash.get(str(x))
 
-    for y in all_nodes:
-        if y.id == str(x):
+addPackages([6,25,28,32], node_array_3)
 
-            all_nodes.remove(y)
-    node_array_3.append(Node(b[0], b[1], float(searchDistance('4001 South 700 East', a[1]))))
 
-# Efficiency of this sort function is O(n log n)
-node_array_3.sort(key=getDistance)
 
 # Efficiency of this is O(n) since I have to iterate through an array and append each element to another array
 for x in node_array_3:
@@ -99,30 +96,14 @@ for x in node_array_3:
 node_array_3 = []
 
 # Truck 2 first set
-# Efficiency of this is O(n^2) since it has nested arrays
-for y in [29,30,31,34,37,40]:
-    b = packagesHash.get(str(y))
-    for x in all_nodes:
-        if x.id == str(y):
 
-            all_nodes.remove(x)
-    node_array_2.append(Node(b[0], b[1], float(searchDistance('4001 South 700 East', b[1]))))
 
-# Efficiency of this sort function is O(n log n)
-node_array_2.sort(key=getDistance)
+addPackages([29,30,31], node_array_2)
 
 # Truck 2 second set
-# Efficiency of this is O(n^2) since it has nested arrays
-for y in [3,18,36,38]:
-    b = packagesHash.get(str(y))
-    for x in all_nodes:
-        if x.id == str(y):
 
-            all_nodes.remove(x)
-    node_array_3.append(Node(b[0], b[1], float(searchDistance('4001 South 700 East', b[1]))))
+addPackages([3,18,36,38], node_array_3)
 
-# Efficiency of this sort function is O(n log n)
-node_array_3.sort(key=getDistance)
 
 # Efficiency of this is O(n) since I have to iterate through an array and append each element to another array
 for y in node_array_3:
@@ -160,6 +141,7 @@ node_array.append(missing_node)
 # print(len(all_nodes))
 originalAmount = len(node_array)
 originalAmount2 = len(node_array_2)
+
 # Main function
 truck_1 = Truck(packagesHash, "Truck 1")
 def startTruck_1():

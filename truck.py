@@ -72,21 +72,33 @@ class Truck:
             # packagesHash.add(deliveredPackage[0], deliveredPackage)
         self.recalculate()
         
+    def checkNewPackages(self):
+        if self.currentTime > datetime.timedelta(hours=10, minutes=20, seconds=00):
+            for x in self.packagesRemaining:
+                if x.id == '9':
+                    x.location = '410 S State St'
+                    print('Corrected address')
+                    loadedPackage = self.packagesHash.get(self.packagesRemaining[0].id)
+                    loadedPackage[1] = x.location
+                    packagesHash.delete(loadedPackage[0])
+                    packagesHash.add(loadedPackage[0], loadedPackage)
+        if self.currentTime > datetime.timedelta(hours=9, minutes=5, seconds=00):
+            for x in self.packagesRemaining:
+                if x.id == '6' or x.id == '25' or x.id == '28' or x.id == '32':
+                    # x.location = '410 S State St'
+                    # print('Corrected address')
+                    loadedPackage = self.packagesHash.get(self.packagesRemaining[0].id)
+                    # loadedPackage[1] = x.location
+                    packagesHash.delete(loadedPackage[0])
+                    packagesHash.add(loadedPackage[0], loadedPackage)
+                
         
 
     def goToLocation(self):
-    
+        self.checkNewPackages()
         self.recalculate()
         
-        # if self.currentTime > datetime.timedelta(hours=10, minutes=20, seconds=00):
-        #     for x in self.packagesRemaining:
-        #         if x.id == '9':
-        #             x.location = '410 S State St'
-        #             print('Corrected address')
-        #             loadedPackage = self.packagesHash.get(self.packagesRemaining[0].id)
-        #             loadedPackage[1] = x.location
-        #             packagesHash.delete(loadedPackage[0])
-        #             packagesHash.add(loadedPackage[0], loadedPackage)
+        
         #             print(x.location)
             
         package = self.packagesRemaining[0]

@@ -63,7 +63,5 @@ class PackagesHashMap:
                                 package[8] = "delivered"
                                 print(package)
                         
-	
-
 packagesHash = PackagesHashMap()
 
