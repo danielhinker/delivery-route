@@ -60,17 +60,16 @@ for x in range(1, 41):
 
 def addPackages(slice, nodeArray):
     # Efficiency of this is O(n^2) since it has nested arrays
+    newNodeArray = all_nodes[:]
     for x in slice:
         a = packagesHash.get(str(x))
-        for y in all_nodes:
+        for y in newNodeArray:
             if y.id == str(x):
                 all_nodes.remove(y)
         nodeArray.append(Node(a[0], a[1], float(searchDistance('4001 South 700 East', a[1]))))
 
     # Efficiency of this sort function is O(n log n)
-    nodeArray.sort(key=getDistance)
-
-
+    # nodeArray.sort(key=getDistance)
 
 # Truck 1 first set
 
@@ -80,7 +79,6 @@ addPackages([13,14,15,16,19,20], node_array)
 # Truck 1 second set
 
 addPackages([6,25,28,32], node_array_3)
-
 
 
 # Efficiency of this is O(n) since I have to iterate through an array and append each element to another array
@@ -98,8 +96,7 @@ addPackages([29,30,31], node_array_2)
 
 
 # Efficiency of this is O(n) since I have to iterate through an array and append each element to another array
-for y in node_array_3:
-    node_array_2.append(y)
+
 
 # Third set
 # Efficiency of this is O(n) since I have to iterate through an array and append each element to another array
@@ -117,7 +114,7 @@ node_array_3.sort(key=getDistance)
 # Efficiency of this is O(n) since I have to iterate through an array and append each element to another array
 # I decided to use i < 11 since I knew there would be 20 elements left and I wanted to evenly distribute them between the two trucks
 for i, node in enumerate(node_array_3):
-    if i < 11:
+    if i < 9:
         node_array.append(node)
     else:
         node_array_2.append(node)
@@ -129,10 +126,11 @@ originalAmount = len(node_array)
 originalAmount2 = len(node_array_2)
 
 # Main function
-truck_1 = Truck(packagesHash, "Truck 1")
+truck_1 = Truck(packagesHash, "Truck 1", node_array)
 def startTruck_1():
     
-    truck_1.getJob(node_array)
+    # truck_1.getJob(node_array)
+    truck_1.getJob()
     while len(truck_1.packagesFinished) != originalAmount:
         if len(truck_1.packagesRemaining) != 0:
             truck_1.goToLocation()
@@ -140,10 +138,11 @@ def startTruck_1():
             truck_1.goToHub()
 
 
-truck_2 = Truck(packagesHash, "Truck 2")
+truck_2 = Truck(packagesHash, "Truck 2", node_array_2)
 def startTruck_2():
     
-    truck_2.getJob(node_array_2)
+    # truck_2.getJob(node_array_2)
+    truck_2.getJob()
     while len(truck_2.packagesFinished) != originalAmount2:
         if len(truck_2.packagesRemaining) != 0:
             truck_2.goToLocation()

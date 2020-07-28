@@ -5,12 +5,12 @@ import datetime
 
 class Truck:
 
-    def __init__(self, hashmap, name):
+    def __init__(self, hashmap, name, nodeArray):
         self.currentLocation = "4001 South 700 East"
         
         self.packagesRemaining = []
         self.packagesFinished = []
-        self.allPackages = []
+        self.allPackages = nodeArray
         self.packagesHash = hashmap
         self.distance = 0.0
         self.speed = 18.0
@@ -19,8 +19,8 @@ class Truck:
         self.name = name
         
 
-    def getJob(self, packagesList):
-        self.allPackages = packagesList
+    def getJob(self):
+        # self.allPackages = packagesList
         # print(len(packagesList))
         
         for i, x in enumerate(self.allPackages):
@@ -37,15 +37,16 @@ class Truck:
         print(self.name)
         print("Current Location: " + startLocation)
         if endLocation == self.hubLocation:
-            print("Going back to hub at 4001 South 700 East") 
+            # print("Going back to hub at 4001 South 700 East") 
+            pass
         else:
             print("Going to: " + endLocation)
         distanceToLocation = searchDistance(startLocation, endLocation)
         self.distance += float(distanceToLocation)
         timeTaken = float(distanceToLocation) / self.speed
         self.currentTime += datetime.timedelta(hours=timeTaken)
-        print("Current Time: " + str(self.currentTime))
-        print("Total distance: " + str(self.distance))
+        # print("Current Time: " + str(self.currentTime))
+        # print("Total distance: " + str(self.distance))
         self.currentLocation = endLocation
         
 
@@ -54,7 +55,7 @@ class Truck:
         
         self.drive(self.currentLocation, self.hubLocation)
         print("Finished going to hub")
-        self.getJob(self.allPackages)
+        self.getJob()
 
         # for x in self.packagesLoaded:
             # self.packagesFinished.append(x)
@@ -119,7 +120,7 @@ class Truck:
         
         self.packagesFinished.append(self.packagesRemaining.pop(0))
         print(self.currentTime)
-        print("Finished delivering package")
+        # print("Finished delivering package")
       
     
     def getDistance(self, node):
