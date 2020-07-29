@@ -7,8 +7,30 @@ from hashmap import packagesHash
 from search import searchDistance
 from truck import Truck
 
+# NOTES 
+# A: The algorithm I use is mainly a greedy algorithm since I choose the option that is optimal at specific points of time.
+# This is evident since each truck has a list of packages and they drive to the package that has the least distance to their current location.
+# I say that this is the algorithm mostly used because in the beginning, I manually sort some packages to make sure it fits the special delivery requirements.
+# However, after I manually sort it, the truck still automatically sorts it and goes to the closest package to it.
+
+# B:
+# I manually sorted the two sets of packages that had special delivery notes so that I can choose which trucks they go on
+# After, I sorted the rest of the packages based on distance from the hub and divided them in a way so that only 1 return to the hub would occur
+# I had a hash table to hold all the package information
+# I made my own data structure to hold store the package data by creating a Node class which can create node objects with distance information
+# This node class helps with sorting the distances of the packages in an array.
+# An adjacency matrix could have also been used instead of the hash map of packages
+# A weighted graph could also have been made based on the distances between each packages but this would take a lot of calculations since there are 40 packages
+# If there are no delivery requirements, a more efficient algorithm would be to recalculate distances every time a package is picked up
+# I tried to do that but only after the packages with the delivery requirements have been delivered
+
+# The total efficiency of the program is O(n^2log(n)) since the most that I use is a loop of the packages remaining and sorting every time that I drop of the package to see which package is the next closest
+# This is based on the fact that the sort algorithm in python is O(nlog(n)) and going through the array of objects is O(n) and they are nested so it is O(n^2log(n))
+
+
 
 # Reading and parsing of the CSV file containing the locations to add it into the hash table
+# Efficiency is O(n) since it iterates through the rows of the csv file once
 with open('locations.csv') as csvfile:
     reader = csv.reader(csvfile)
     counter = 0
@@ -28,33 +50,21 @@ with open('locations.csv') as csvfile:
             packagesHash.add(packageId, [packageId, address, city, state, zip, delivery, mass, notes, status, timeDelivered, timePickedUp])
        
 # Initializing empty arrays to use for later storing packages
+# O(1), initializing an empty array
 all_nodes = []
 node_array = []
 node_array_2 = []
 
 # This function will be used to help sort an array of objects representing the packages by how far they are.
+# O(1), retrieving and displaying the distance of a node that is provided
 def getDistance(node):
     return node.distance
 
 # Add all 40 packages to an array by pulling it from the hash table
+# O(n), iterating through the array
 for x in range(1, 41):
     a = packagesHash.get(str(x))    
     all_nodes.append(Node(a[0], a[1], float(searchDistance('4001 South 700 East', a[1])), a[4]))
-
-# NOTES
-# I manually sorted the two sets of packages that had special delivery notes so that I can choose which trucks they go on
-# After, I sorted the rest of the packages based on distance from the hub and divided them in a way so that only 1 return to the hub would occur
-# I had a hash table to hold all the package information
-# I made my own data structure to hold store the package data by creating a Node class which can create node objects with distance information
-# This node class helps with sorting the distances of the packages in an array.
-# An adjacency matrix could have also been used instead of the hash map of packages
-# A weighted graph could also have been made based on the distances between each packages but this would take a lot of calculations since there are 40 packages
-# If there are no delivery requirements, a more efficient algorithm would be to recalculate distances every time a package is picked up
-# I tried to do that but only after the packages with the delivery requirements have been delivered
-
-# The total efficiency of the program is O(n^2log(n)) since the most that I use is a loop of the packages remaining and sorting every time that I drop of the package to see which package is the next closest
-# This is based on the fact that the sort algorithm in python is O(nlog(n)) and going through the array of objects is O(n) and they are nested so it is O(n^2log(n))
-#
 
 # Function to help manually add packages to the arrays.
 def addPackages(slice, nodeArray):
@@ -97,7 +107,7 @@ def checkTime(truckObject):
         truckObject.originalAmount += 5
         truckObject.goToHub()
 
-# Main function to make instances of the Truck class and start their delivery
+# Creates an instance of the Truck class, creating Truck 1, and the function that starts the truck on their delivery until it finishes all packages
 truck_1 = Truck(packagesHash, "Truck 1", node_array, originalAmount)
 def startTruck_1():
     truck_1.getJob()
@@ -108,7 +118,7 @@ def startTruck_1():
         else:
             truck_1.goToHub()
 
-
+# Creates an instance of the Truck class, creating Truck 2, and the function that starts the truck on their delivery until it finishes all packages
 truck_2 = Truck(packagesHash, "Truck 2", node_array_2, originalAmount2)
 def startTruck_2():
     truck_2.getJob()
@@ -119,6 +129,7 @@ def startTruck_2():
         else:
             truck_2.goToHub()
 
+# Calling the function to start the truck objects for the delivery
 startTruck_1()
 startTruck_2()
 
@@ -132,6 +143,7 @@ if truck_1.currentTime > truck_2.currentTime:
 else:
     finishTime = truck_2.currentTime
 
+# Prints the total distance driven and the time finished
 print("-------------------------")
 print("All packages have been delivered")
 print("Total Distance driven: " + str(totalDistance) + " miles")
@@ -180,14 +192,9 @@ while input1 != 'end':
 # 13, 14, 15, 16, 19, 20
 
 # Has to be delivered before 10:30am
-# 6, 13, 14, 16, 20, 25,   29, 30, 31, 34, 37, 40
+# 1, 6, 13, 14, 16, 20, 25,   29, 30, 31, 34, 37, 40
 # sort then divide in half
 
 # Wrong address till 10:20am
 # 9
 # The wrong delivery address for package #9, Third District Juvenile Court, will be corrected at 10:20 a.m. The correct address is 410 S State St., Salt Lake City, UT 84111.
-
-
-
-
-

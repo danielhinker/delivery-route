@@ -1,13 +1,16 @@
 
 class PackagesHashMap:
         
+        # Initializes the hashmap
         def __init__(self):
                 self.size = 50
                 self.map = [None] * self.size
 		
+        # Creates a hash which determines where it is stored in the hashmap and helps with retrieval of it
         def _hasher(self, key):                
                 return hash(key) % self.size
 		
+        # Add packages with the need of a key and a value to store it
         def add(self, key, value):
                 hashedKey = self._hasher(key)
                 key_value = [key, value]
@@ -22,7 +25,8 @@ class PackagesHashMap:
                                         return True
                         self.map[hashedKey].append(key_value)
                         return True
-			
+	
+        # Gets packages using their package id
         def get(self, key):
                 hashedKey = self._hasher(key)
                 if self.map[hashedKey] != None:
@@ -31,6 +35,7 @@ class PackagesHashMap:
                                         return x[1]
                 return None
 			
+        # Removes packages from the hashmap
         def remove(self, key):
                 hashedKey = self._hasher(key)
 		
@@ -42,6 +47,7 @@ class PackagesHashMap:
                                 return True
                 return False
         
+        # Search function to find individual packages
         def search(self, packageId, address, city, state, zip, delivery, mass, status):
                 for item in self.map:
                         if item != None:
@@ -50,10 +56,12 @@ class PackagesHashMap:
                 error = "None Found"
                 return error
         
+        # This function prints all the packages in the hashmap
         def all(self):
                 for x in range(1, 41):
                         print(self.get(str(x)))
         
+        # This creates the screenshots of where the packages are at given times
         def timeDelivered(self, timeStart, timeEnd):
                 for x in range(1, 41):
                         package = self.get(str(x))
