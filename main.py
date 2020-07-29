@@ -75,9 +75,7 @@ def addPackages(slice, nodeArray):
 # Truck 1 first set
 
 # Truck 1 second set
-addPackages([13,14,15,16,19,20], node_array)
-
-
+addPackages([13,14,15,16,19,20,39,27], node_array)
 
 # Truck 1 second set
 
@@ -90,14 +88,13 @@ addPackages([29, 30, 31, 34, 37, 40], node_array_2)
 # Third set
 # Efficiency of this is O(n) since I have to iterate through an array and append each element to another array
 
-
 # Efficiency of this sort function is O(n log n)
 all_nodes.sort(key=getDistance)
 
 # Efficiency of this is O(n) since I have to iterate through an array and append each element to another array
 for i, node in enumerate(all_nodes[:]):
     # print(node.id)
-    if int(node.id) in [6,25,28,32]:
+    if int(node.id) in [6,25,28,32,36]:
         pass
     elif i < 10:
         addPackages([int(node.id)], node_array)
@@ -107,15 +104,14 @@ for i, node in enumerate(all_nodes[:]):
 # addPackages([], node_array)
 
 
-
 originalAmount = len(node_array)
 originalAmount2 = len(node_array_2)
 
 def checkTime(truckObject):
     if truckObject.currentTime > datetime.timedelta(hours=9, minutes=5, seconds=00) and truckObject.counter == 0:
-        addPackages([6,25,28,32], truckObject.allPackages)
+        addPackages([6,25,28,32,36], truckObject.allPackages)
         truckObject.counter += 1
-        truckObject.originalAmount += 4
+        truckObject.originalAmount += 5
         truckObject.goToHub()
         # object.
 
