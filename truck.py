@@ -60,7 +60,7 @@ class Truck:
                     print('Corrected address')
                     loadedPackage = self.packagesHash.get(self.packagesRemaining[0].id)
                     loadedPackage[1] = x.location
-                    packagesHash.delete(loadedPackage[0])
+                    packagesHash.remove(loadedPackage[0])
                     packagesHash.add(loadedPackage[0], loadedPackage)
         
 
@@ -74,7 +74,7 @@ class Truck:
         loadedPackage = self.packagesHash.get(self.packagesRemaining[0].id)
         loadedPackage[8] = "in-route"
         loadedPackage[10] = self.currentTime
-        packagesHash.delete(loadedPackage[0])
+        packagesHash.remove(loadedPackage[0])
         packagesHash.add(loadedPackage[0], loadedPackage)
         print("Current Time: " + str(self.currentTime))
         self.drive(self.currentLocation, packageLocation)
@@ -91,7 +91,7 @@ class Truck:
         loadedPackage = self.packagesHash.get(self.packagesRemaining[0].id)
         loadedPackage[8] = "delivered"
         loadedPackage[9] = self.currentTime
-        packagesHash.delete(loadedPackage[0])
+        packagesHash.remove(loadedPackage[0])
         packagesHash.add(loadedPackage[0], loadedPackage)
 
         self.packagesFinished.append(self.packagesRemaining.pop(0))

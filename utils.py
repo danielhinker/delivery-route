@@ -1,5 +1,6 @@
 import datetime
 
+# Node class to represent packages and help with sorting them by distances.
 class Node:
     
     def __init__(self, id, location, distance, *argv):

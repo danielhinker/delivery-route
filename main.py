@@ -28,14 +28,16 @@ with open('locations.csv') as csvfile:
             timePickedUp = 0
             packagesHash.add(packageId, [packageId, address, city, state, zip, delivery, mass, notes, status, timeDelivered, timePickedUp])
        
+# Initializing empty arrays to use for later storing packages
 all_nodes = []
 node_array = []
 node_array_2 = []
 
+# This function will be used to help sort an array of objects representing the packages by how far they are.
 def getDistance(node):
     return node.distance
 
-# All packages
+# Add all 40 packages to an array by pulling it from the hash table
 for x in range(1, 41):
     a = packagesHash.get(str(x))    
     all_nodes.append(Node(a[0], a[1], float(searchDistance('4001 South 700 East', a[1])), a[4]))
@@ -43,14 +45,19 @@ for x in range(1, 41):
 # NOTES
 # I manually sorted the two sets of packages that had special delivery notes so that I can choose which trucks they go on
 # After, I sorted the rest of the packages based on distance from the hub and divided them in a way so that only 1 return to the hub would occur
-# I had a hash table to hold the package information
-# I made a Node class to help with sorting packages
+# I had a hash table to hold all the package information
+# I made my own data structure to hold store the package data by creating a Node class which can create node objects with distance information
+# This node class helps with sorting the distances of the packages in an array.
 # An adjacency matrix could have also been used instead of the hash map of packages
 # A weighted graph could also have been made based on the distances between each packages but this would take a lot of calculations since there are 40 packages
 # If there are no delivery requirements, a more efficient algorithm would be to recalculate distances every time a package is picked up
 # I tried to do that but only after the packages with the delivery requirements have been delivered
 
+# The total efficiency of the program is O(n^2log(n)) since the most that I use is a loop of the packages remaining and sorting every time that I drop of the package to see which package is the next closest
+# This is based on the fact that the sort algorithm in python is O(nlog(n)) and going through the array of objects is O(n) and they are nested so it is O(n^2log(n))
+#
 
+# Function to help manually add packages to the arrays.
 def addPackages(slice, nodeArray):
     # Efficiency of this is O(n^2) since it has nested arrays
     for x in slice:
@@ -65,14 +72,12 @@ addPackages([13,14,15,16,19,20,39,27], node_array)
 # Adding packages specifically for truck 2
 addPackages([29, 30, 31, 34, 37, 40], node_array_2)
 
-
-# Third set
-# Efficiency of this is O(n) since I have to iterate through an array and append each element to another array
-
 # Efficiency of this sort function is O(n log n)
+# This sorts the array based on the distances of each object
 all_nodes.sort(key=getDistance)
 
 # Efficiency of this is O(n) since I have to iterate through an array and append each element to another array
+# This is used to divide the rest of the packages automatically
 for i, node in enumerate(all_nodes[:]):
     if int(node.id) in [6,25,28,32,36]:
         pass
@@ -81,10 +86,11 @@ for i, node in enumerate(all_nodes[:]):
     else:
         addPackages([int(node.id)], node_array_2)
 
-
+# These two variables store the amount of packages that each truck will deliver in total to help determine when the trucks have finished delivering
 originalAmount = len(node_array)
 originalAmount2 = len(node_array_2)
 
+# This function checks the time periodically to make sure it is time to add delayed packages
 def checkTime(truckObject):
     if truckObject.currentTime > datetime.timedelta(hours=9, minutes=5, seconds=00) and truckObject.counter == 0:
         addPackages([6,25,28,32,36], truckObject.allPackages)
@@ -92,7 +98,7 @@ def checkTime(truckObject):
         truckObject.originalAmount += 5
         truckObject.goToHub()
 
-# Main function
+# Main function to make instances of the Truck class and start their delivery
 truck_1 = Truck(packagesHash, "Truck 1", node_array, originalAmount)
 def startTruck_1():
     truck_1.getJob()
@@ -116,8 +122,11 @@ def startTruck_2():
 
 startTruck_1()
 startTruck_2()
+
+# Helps calculate the total distances by adding the distances that each truck has covered
 totalDistance = truck_1.distance + truck_2.distance
 
+# This initializes the finishTime and returns the final time based on which truck took the longest
 finishTime = 0
 if truck_1.currentTime > truck_2.currentTime:
     finishTime = truck_1.currentTime
@@ -130,6 +139,8 @@ print("Total Distance driven: " + str(totalDistance) + " miles")
 print("Time Finished: " + str(finishTime))
 
 # Input
+# This block of code allows users to see an interface where they can input commands for the program
+# such as displaying the status of packages between certain times and searching for packages
 input1 = ''
 while input1 != 'end':
     input1 = input("Enter 1,2,3 to see packages between 8:35-9:25am, 9:35-10:25am, 12:03-1:12pm\nType x to check status of a package or type end to stop program ")
