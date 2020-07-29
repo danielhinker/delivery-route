@@ -47,7 +47,7 @@ with open('locations.csv') as csvfile:
             status = "pending"
             timeDelivered = 0
             timePickedUp = 0
-            packagesHash.add(packageId, [packageId, address, city, state, zip, delivery, mass, notes, status, timeDelivered, timePickedUp])
+            packagesHash.add(packageId, [packageId, address, city, state, zip, delivery, mass, notes, status, timePickedUp, timeDelivered])
        
 # Initializing empty arrays to use for later storing packages
 # O(1), initializing an empty array
@@ -152,21 +152,35 @@ print("Time Finished: " + str(finishTime))
 # Input
 # This block of code allows users to see an interface where they can input commands for the program
 # such as displaying the status of packages between certain times and searching for packages
+for x in range (1,41):
+    package = packagesHash.get(str(x))
+    package[9] = "Picked up: " + str(package[9])
+    package[10] = "Delivered: " + str(package[10])
+
 input1 = ''
 while input1 != 'end':
-    input1 = input("Enter 1,2,3 to see packages between 8:35-9:25am, 9:35-10:25am, 12:03-1:12pm\nType 'x' to check status of a package or type 'all' to see all packages or type 'end' to stop program: ")
-    if input1 == 'x':
+    print("----------------------------------")
+    input1 = input("Enter 1,2,3 to see packages between 8:35-9:25am, 9:35-10:25am, 12:03-1:12pm\n" +
+    "Type 'find' to check status of a package by id\nType 'all' to see all package with all information\n" +
+    "Type 'time' to see all packages by time delivered\nType 'end' to stop program\n> ")
+    # input1 = input1.strip()
+    filtered = filter(str.isalnum, input1)
+    filtered2 = "".join(filtered)
+    input1 = filtered2
+    if input1 == 'find':
         packageInput = input("PackageId: ")
-        addressInput = input("Address: ")
-        cityInput = input("City: ")
-        stateInput = input("State: ")
-        zipInput = input("Zip: ")
-        deliveryInput = input("Delivery Deadline: ")
-        weightInput = input("Weight: ")
-        statusInput = input("Status (Type pending, in-route, delivered): ")
-        print(packagesHash.search(packageInput, addressInput, cityInput, stateInput, zipInput, deliveryInput, weightInput, statusInput)[0][1])
+        # addressInput = input("Address: ")
+        # cityInput = input("City: ")
+        # stateInput = input("State: ")
+        # zipInput = input("Zip: ")
+        # deliveryInput = input("Delivery Deadline: ")
+        # weightInput = input("Weight: ")
+        # statusInput = input("Status (Type pending, in-route, delivered): ")
+        print(packagesHash.search(packageInput)[0][1])
     elif input1 == "all":
         packagesHash.all()
+    elif input1 == "time":
+        packagesHash.timeOnly()
     elif input1 == "1":
         print("Packages between 8:35am and 9:25am")
         packagesHash.timeDelivered(datetime.timedelta(hours=8, minutes=35, seconds=00), datetime.timedelta(hours=9, minutes=25, seconds=00))

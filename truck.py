@@ -70,7 +70,7 @@ class Truck:
         # Fixes hashmap
         loadedPackage = self.packagesHash.get(self.packagesRemaining[0].id)
         loadedPackage[8] = "in-route"
-        loadedPackage[10] = self.currentTime
+        loadedPackage[9] = self.currentTime
         packagesHash.remove(loadedPackage[0])
         packagesHash.add(loadedPackage[0], loadedPackage)
         
@@ -87,7 +87,7 @@ class Truck:
         # Fixes hashmap
         loadedPackage = self.packagesHash.get(self.packagesRemaining[0].id)
         loadedPackage[8] = "Delivered"
-        loadedPackage[9] = self.currentTime
+        loadedPackage[10] = self.currentTime
         packagesHash.remove(loadedPackage[0])
         packagesHash.add(loadedPackage[0], loadedPackage)
 
