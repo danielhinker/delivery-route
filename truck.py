@@ -25,7 +25,7 @@ class Truck:
         
         for i, x in enumerate(self.allPackages):
             
-            if len(self.packagesRemaining) != 10:
+            if len(self.packagesRemaining) != 16:
                 
                 self.packagesRemaining.append(x)
         

@@ -33,7 +33,6 @@ with open('locations.csv') as csvfile:
 all_nodes = []
 node_array = []
 node_array_2 = []
-node_array_3 = []
 
 
 
@@ -62,65 +61,46 @@ def addPackages(slice, nodeArray):
     # Efficiency of this is O(n^2) since it has nested arrays
     newNodeArray = all_nodes[:]
     for x in slice:
-        a = packagesHash.get(str(x))
         for y in newNodeArray:
             if y.id == str(x):
                 all_nodes.remove(y)
-        nodeArray.append(Node(a[0], a[1], float(searchDistance('4001 South 700 East', a[1]))))
+                nodeArray.append(y)
 
     # Efficiency of this sort function is O(n log n)
     # nodeArray.sort(key=getDistance)
 
 # Truck 1 first set
 
+# Truck 1 second set
 addPackages([13,14,15,16,19,20], node_array)
+
 
 
 # Truck 1 second set
 
-addPackages([6,25,28,32], node_array_3)
+# addPackages([6,25,28,32], node_array_3)
 
 
-# Efficiency of this is O(n) since I have to iterate through an array and append each element to another array
-for x in node_array_3:
-    node_array.append(x)
-
-
-node_array_3 = []
-
-# Truck 2 first set
-addPackages([29,30,31], node_array_2)
-
-# Truck 2 second set
-# addPackages([], node_array_3)
-
-
-# Efficiency of this is O(n) since I have to iterate through an array and append each element to another array
+addPackages([29, 30, 31, 34, 37, 40, 5, 38], node_array_2)
 
 
 # Third set
 # Efficiency of this is O(n) since I have to iterate through an array and append each element to another array
-node_array_3 = []
-missing_node = 0
-for x in all_nodes:
-    if x.id == '9':
-        missing_node = x
-    else:
-        node_array_3.append(x)
+
 
 # Efficiency of this sort function is O(n log n)
-node_array_3.sort(key=getDistance)
+all_nodes.sort(key=getDistance)
 
 # Efficiency of this is O(n) since I have to iterate through an array and append each element to another array
-# I decided to use i < 11 since I knew there would be 20 elements left and I wanted to evenly distribute them between the two trucks
-for i, node in enumerate(node_array_3):
-    if i < 9:
+for i, node in enumerate(all_nodes):
+    if int(node.id) in [6,25,28,32]:
+        pass
+    elif i < 10:
         node_array.append(node)
+        # addPackages([node.id], node_array)
     else:
+        # addPackages([node.id], node_array_2)
         node_array_2.append(node)
-    
-# O(1) since it is just appending an element to an array
-node_array.append(missing_node)
 
 originalAmount = len(node_array)
 originalAmount2 = len(node_array_2)
@@ -128,7 +108,6 @@ originalAmount2 = len(node_array_2)
 # Main function
 truck_1 = Truck(packagesHash, "Truck 1", node_array)
 def startTruck_1():
-    
     # truck_1.getJob(node_array)
     truck_1.getJob()
     while len(truck_1.packagesFinished) != originalAmount:
@@ -152,6 +131,7 @@ def startTruck_2():
 startTruck_1()
 startTruck_2()
 totalDistance = truck_1.distance + truck_2.distance
+print(len(all_nodes))
 
 finishTime = 0
 if truck_1.currentTime > truck_2.currentTime:
@@ -211,6 +191,10 @@ while input1 != 'end':
 # 6, 13, 14, 16, 20, 25,   29, 30, 31, 34, 37, 40
 # sort then divide in half
 
+# Wrong address till 10:20am
+# 9
+# The wrong delivery address for package #9, Third District Juvenile Court, will be corrected at 10:20 a.m. The correct address is 410 S State St., Salt Lake City, UT 84111.
+
 # truck 1 first set
 # [6,13,14,15, 16, 19, 20]
 
@@ -226,8 +210,6 @@ while input1 != 'end':
 # third set is the rest of the packages sorted and split
 
 
-# Wrong address till 10:20am
-# 9
-# The wrong delivery address for package #9, Third District Juvenile Court, will be corrected at 10:20 a.m. The correct address is 410 S State St., Salt Lake City, UT 84111.
+
 
 
