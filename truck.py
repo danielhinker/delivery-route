@@ -25,15 +25,12 @@ class Truck:
         # self.allPackages = packagesList
         # print(len(packagesList))
         
-        for i, x in enumerate(self.allPackages):
+        for i, x in enumerate(self.allPackages[:]):
             
             if len(self.packagesRemaining) != 16:
                 
                 self.packagesRemaining.append(x)
-        
-        for i, x in enumerate(self.packagesRemaining):
-            
-            self.allPackages.remove(x)
+                self.allPackages.remove(x)
 
 
     def drive(self, startLocation, endLocation):
@@ -120,8 +117,9 @@ class Truck:
         else:
             print("Delivering package: ##" + self.packagesRemaining[0].id)
         
-        
+        # prresint(self.packagesRemaining[0].id)
         self.packagesFinished.append(self.packagesRemaining.pop(0))
+        
         print(self.currentTime)
         # print("Finished delivering package")
       

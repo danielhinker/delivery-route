@@ -43,8 +43,9 @@ def getDistance(node):
 # All packages
 for x in range(1, 41):
     a = packagesHash.get(str(x))
+    # print(x)
+    
     all_nodes.append(Node(a[0], a[1], float(searchDistance('4001 South 700 East', a[1]))))
-
 
 # NOTES
 # I manually sorted the packages that had special delivery notes
@@ -59,12 +60,14 @@ for x in range(1, 41):
 
 def addPackages(slice, nodeArray):
     # Efficiency of this is O(n^2) since it has nested arrays
-    newNodeArray = all_nodes[:]
+    # newNodeArray = all_nodes[:]
     for x in slice:
-        for y in newNodeArray:
-            if y.id == str(x):
-                all_nodes.remove(y)
+        for y in all_nodes[:]:
+            # print(y.id)
+            if str(y.id) == str(x):
                 nodeArray.append(y)
+                all_nodes.remove(y)
+                
 
     # Efficiency of this sort function is O(n log n)
     # nodeArray.sort(key=getDistance)
@@ -81,7 +84,7 @@ addPackages([13,14,15,16,19,20], node_array)
 # addPackages([6,25,28,32], node_array_3)
 
 
-addPackages([29, 30, 31, 34, 37, 40, 5, 38], node_array_2)
+addPackages([29, 30, 31, 34, 37, 40], node_array_2)
 
 
 # Third set
@@ -93,12 +96,14 @@ all_nodes.sort(key=getDistance)
 
 # Efficiency of this is O(n) since I have to iterate through an array and append each element to another array
 for i, node in enumerate(all_nodes[:]):
+    # print(node.id)
     if int(node.id) in [6,25,28,32]:
         pass
     elif i < 10:
         addPackages([int(node.id)], node_array)
     else:
         addPackages([int(node.id)], node_array_2)
+# print(all_nodes)
 # addPackages([], node_array)
 
 
@@ -109,7 +114,8 @@ originalAmount2 = len(node_array_2)
 def checkTime(truckObject):
     if truckObject.currentTime > datetime.timedelta(hours=9, minutes=5, seconds=00) and truckObject.counter == 0:
         addPackages([6,25,28,32], truckObject.allPackages)
-        
+        truckObject.counter += 1
+        truckObject.originalAmount += 4
         truckObject.goToHub()
         # object.
 
@@ -125,6 +131,8 @@ def startTruck_1():
         else:
             truck_1.goToHub()
 
+# for x in node_array_2:
+#     print(x.id)
 
 truck_2 = Truck(packagesHash, "Truck 2", node_array_2, originalAmount2)
 def startTruck_2():
@@ -132,7 +140,7 @@ def startTruck_2():
     # truck_2.getJob(node_array_2)
     truck_2.getJob()
     while len(truck_2.packagesFinished) != truck_2.originalAmount:
-        # checkTime(truck_2)
+        checkTime(truck_2)
         if len(truck_2.packagesRemaining) != 0:
             truck_2.goToLocation()
         else:
@@ -142,6 +150,8 @@ startTruck_1()
 startTruck_2()
 totalDistance = truck_1.distance + truck_2.distance
 print(len(all_nodes))
+print(len(truck_1.packagesFinished))
+print(len(truck_2.packagesFinished))
 
 finishTime = 0
 if truck_1.currentTime > truck_2.currentTime:
