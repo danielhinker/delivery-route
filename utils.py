@@ -11,4 +11,5 @@ class Node:
         self.distance = distance
         
 # This initializes the starting time
+# O(1) time
 currentTime = datetime.timedelta(hours=8, minutes=00, seconds=00)

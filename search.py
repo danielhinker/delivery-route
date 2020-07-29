@@ -12,6 +12,7 @@ def searchDistance(start, end):
         rowIndex = 0
         start = start[:10]
         end = end[:10]
+
         for i, row in enumerate(reader):
             
             if i==0:
