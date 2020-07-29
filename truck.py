@@ -7,7 +7,6 @@ class Truck:
 
     def __init__(self, hashmap, name, nodeArray, originalAmount):
         self.currentLocation = "4001 South 700 East"
-        
         self.packagesRemaining = []
         self.packagesFinished = []
         self.allPackages = nodeArray
@@ -20,18 +19,17 @@ class Truck:
         self.counter = 0
         self.originalAmount = originalAmount
         
-
+# Adds more packages from the hub
     def getJob(self):
         for i, x in enumerate(self.allPackages[:]):
-            
             if len(self.packagesRemaining) != 16:
-                
                 self.packagesRemaining.append(x)
                 self.allPackages.remove(x)
 
-
+# This function changes the state of the truck's location and adds to the time and distance
     def drive(self, startLocation, endLocation):
         print(self.name)
+        print("Current Time: " + str(self.currentTime))
         print("Current Location: " + startLocation)
         if endLocation == self.hubLocation:
             print("Going back to hub at 4001 South 700 East") 
@@ -41,17 +39,16 @@ class Truck:
         self.distance += float(distanceToLocation)
         timeTaken = float(distanceToLocation) / self.speed
         self.currentTime += datetime.timedelta(hours=timeTaken)
-        print("Time After Drive: " + str(self.currentTime))
+        # print("Time After Drive: " + str(self.currentTime))
         self.currentLocation = endLocation
-        
 
-
-    def goToHub(self):
-        
+# Sets the location to drive to as the hub location
+    def goToHub(self):   
         self.drive(self.currentLocation, self.hubLocation)
         self.getJob()
         self.recalculate()
-        
+
+# Periodically checks if the wrong address is ready to be fixed
     def checkNewPackages(self):
         if self.currentTime > datetime.timedelta(hours=10, minutes=20, seconds=00):
             for x in self.packagesRemaining:
@@ -63,7 +60,7 @@ class Truck:
                     packagesHash.remove(loadedPackage[0])
                     packagesHash.add(loadedPackage[0], loadedPackage)
         
-
+# Checks the next package to be delivered and sets the location
     def goToLocation(self):
         self.checkNewPackages()
         self.recalculate()
@@ -76,32 +73,31 @@ class Truck:
         loadedPackage[10] = self.currentTime
         packagesHash.remove(loadedPackage[0])
         packagesHash.add(loadedPackage[0], loadedPackage)
-        print("Current Time: " + str(self.currentTime))
+        
         self.drive(self.currentLocation, packageLocation)
         self.deliverPackage()
-        
-    
+
+# Updates the arrays and the packages to be appended or removed
     def deliverPackage(self):
         if len(self.packagesRemaining[0].id) == 1:
-            print("Delivering package: ##0" + self.packagesRemaining[0].id)
+            print("Delivering package: #0" + self.packagesRemaining[0].id)
         else:
-            print("Delivering package: ##" + self.packagesRemaining[0].id)
+            print("Delivering package: #" + self.packagesRemaining[0].id)
         
         # Fixes hashmap
         loadedPackage = self.packagesHash.get(self.packagesRemaining[0].id)
-        loadedPackage[8] = "delivered"
+        loadedPackage[8] = "Delivered"
         loadedPackage[9] = self.currentTime
         packagesHash.remove(loadedPackage[0])
         packagesHash.add(loadedPackage[0], loadedPackage)
 
         self.packagesFinished.append(self.packagesRemaining.pop(0))
-        
-        print(self.currentTime)
-      
     
+# Used in sorting the distances of the packages
     def getDistance(self, node):
         return node.distance
 
+# Used before traveling to each package and sorts to see which package is the closest
     def recalculate(self):
         # The efficiency of this for block is O(n) since I'm iterating through an array and changing values
         for x in self.packagesRemaining:
