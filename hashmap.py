@@ -59,9 +59,17 @@ class PackagesHashMap:
                 for x in range(1, 41):
                         package = self.get(str(x))
                         # if package[9] < timeStart
-                        if package[9] > timeStart and package[9] < timeEnd:
+                        if package[10] > timeEnd and package[9] > timeEnd:
+                                package[8] = "pending"
+                                print(package)
+                        elif package[9] < timeStart:
                                 package[8] = "delivered"
                                 print(package)
+                        else:
+                                # package[10] > timeStart and package[9] > timeEnd
+                                package[8] = "in-route"
+                                print(package)
+                                
                         
 packagesHash = PackagesHashMap()
 

@@ -45,7 +45,7 @@ class Truck:
         self.distance += float(distanceToLocation)
         timeTaken = float(distanceToLocation) / self.speed
         self.currentTime += datetime.timedelta(hours=timeTaken)
-        # print("Current Time: " + str(self.currentTime))
+        print("Time After Drive: " + str(self.currentTime))
         # print("Total distance: " + str(self.distance))
         self.currentLocation = endLocation
         
@@ -54,20 +54,10 @@ class Truck:
     def goToHub(self):
         
         self.drive(self.currentLocation, self.hubLocation)
-        print("Finished going to hub")
+        
+        
         self.getJob()
-
-        # for x in self.packagesLoaded:
-            # self.packagesFinished.append(x)
-
-            # print("Delivering package: #" + x.id)
-            
-            # Fixes hashmap
-            # deliveredPackage = self.packagesHash.get(x.id)
-            # deliveredPackage[8] = "delivered"
-            # deliveredPackage[9] = self.currentTime
-            # packagesHash.delete(deliveredPackage[0])
-            # packagesHash.add(deliveredPackage[0], deliveredPackage)
+        
         self.recalculate()
         
     def checkNewPackages(self):
@@ -76,20 +66,10 @@ class Truck:
                 if x.id == '9':
                     x.location = '410 S State St'
                     print('Corrected address')
-                    # loadedPackage = self.packagesHash.get(self.packagesRemaining[0].id)
-                    # loadedPackage[1] = x.location
-                    # packagesHash.delete(loadedPackage[0])
-                    # packagesHash.add(loadedPackage[0], loadedPackage)
-        # if self.currentTime > datetime.timedelta(hours=9, minutes=5, seconds=00):
-        #     for x in self.packagesRemaining:
-        #         if x.id == '6' or x.id == '25' or x.id == '28' or x.id == '32':
-        #             # x.location = '410 S State St'
-        #             # print('Corrected address')
-        #             loadedPackage = x
-        #             # loadedPackage[1] = x.location
-        #             # packagesHash.delete(loadedPackage.id)
-        #             # packagesHash.add(loadedPackage.i, loadedPackage)
-                
+                    loadedPackage = self.packagesHash.get(self.packagesRemaining[0].id)
+                    loadedPackage[1] = x.location
+                    packagesHash.delete(loadedPackage[0])
+                    packagesHash.add(loadedPackage[0], loadedPackage)
         
 
     def goToLocation(self):
@@ -97,17 +77,15 @@ class Truck:
         self.recalculate()
         package = self.packagesRemaining[0]
         packageLocation = package.location
-        
-        self.drive(self.currentLocation, packageLocation)
-        
-        # Fixes hashmap
-        # loadedPackage = self.packagesHash.get(self.packagesRemaining[0].id)
-        # loadedPackage[8] = "in-route"
-        # loadedPackage[10] = self.currentTime
-        # packagesHash.delete(loadedPackage[0])
-        # packagesHash.add(loadedPackage[0], loadedPackage)
 
-        # print(loadedPackage)
+        # Fixes hashmap
+        loadedPackage = self.packagesHash.get(self.packagesRemaining[0].id)
+        loadedPackage[8] = "in-route"
+        loadedPackage[10] = self.currentTime
+        packagesHash.delete(loadedPackage[0])
+        packagesHash.add(loadedPackage[0], loadedPackage)
+        print("Current Time: " + str(self.currentTime))
+        self.drive(self.currentLocation, packageLocation)
         self.deliverPackage()
         
     
@@ -117,7 +95,13 @@ class Truck:
         else:
             print("Delivering package: ##" + self.packagesRemaining[0].id)
         
-        # prresint(self.packagesRemaining[0].id)
+        # Fixes hashmap
+        loadedPackage = self.packagesHash.get(self.packagesRemaining[0].id)
+        loadedPackage[8] = "delivered"
+        loadedPackage[9] = self.currentTime
+        packagesHash.delete(loadedPackage[0])
+        packagesHash.add(loadedPackage[0], loadedPackage)
+
         self.packagesFinished.append(self.packagesRemaining.pop(0))
         
         print(self.currentTime)

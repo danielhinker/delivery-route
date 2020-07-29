@@ -45,7 +45,7 @@ for x in range(1, 41):
     a = packagesHash.get(str(x))
     # print(x)
     
-    all_nodes.append(Node(a[0], a[1], float(searchDistance('4001 South 700 East', a[1]))))
+    all_nodes.append(Node(a[0], a[1], float(searchDistance('4001 South 700 East', a[1])), a[4]))
 
 # NOTES
 # I manually sorted the packages that had special delivery notes
@@ -190,7 +190,6 @@ while input1 != 'end':
         print("----------------------------------")
 
 
-# Fulfilled
 # Packages only on truck 2
 # 3, 18, 36, 38
 
@@ -210,20 +209,6 @@ while input1 != 'end':
 # Wrong address till 10:20am
 # 9
 # The wrong delivery address for package #9, Third District Juvenile Court, will be corrected at 10:20 a.m. The correct address is 410 S State St., Salt Lake City, UT 84111.
-
-# truck 1 first set
-# [6,13,14,15, 16, 19, 20]
-
-# truck 2 first set
-# [29,30,31,34,37,40,25]
-
-# truck 1 second set
-# [6,25,28,32]
-
-# truck 2 second set
-#  [3,18,36,38]
-
-# third set is the rest of the packages sorted and split
 
 
 
