@@ -154,7 +154,7 @@ print("Time Finished: " + str(finishTime))
 # such as displaying the status of packages between certain times and searching for packages
 input1 = ''
 while input1 != 'end':
-    input1 = input("Enter 1,2,3 to see packages between 8:35-9:25am, 9:35-10:25am, 12:03-1:12pm\nType x to check status of a package or type end to stop program ")
+    input1 = input("Enter 1,2,3 to see packages between 8:35-9:25am, 9:35-10:25am, 12:03-1:12pm\nType 'x' to check status of a package or type 'all' to see all packages or type 'end' to stop program: ")
     if input1 == 'x':
         packageInput = input("PackageId: ")
         addressInput = input("Address: ")
@@ -165,6 +165,8 @@ while input1 != 'end':
         weightInput = input("Weight: ")
         statusInput = input("Status (Type pending, in-route, delivered): ")
         print(packagesHash.search(packageInput, addressInput, cityInput, stateInput, zipInput, deliveryInput, weightInput, statusInput)[0][1])
+    elif input1 == "all":
+        packagesHash.all()
     elif input1 == "1":
         print("Packages between 8:35am and 9:25am")
         packagesHash.timeDelivered(datetime.timedelta(hours=8, minutes=35, seconds=00), datetime.timedelta(hours=9, minutes=25, seconds=00))

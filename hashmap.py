@@ -59,6 +59,9 @@ class PackagesHashMap:
         # This function prints all the packages in the hashmap
         def all(self):
                 for x in range(1, 41):
+                        package = self.get(str(x))
+                        package[9] = "Picked up: " + str(package[9])
+                        package[10] = "Delivered: " + str(package[10])
                         print(self.get(str(x)))
         
         # This creates the screenshots of where the packages are at given times
@@ -67,12 +70,18 @@ class PackagesHashMap:
                         package = self.get(str(x))
                         if package[10] > timeEnd and package[9] > timeEnd:
                                 package[8] = "pending"
+                                package[9] = "Picked up: " + str(package[9])
+                                package[10] = "Delivered: " + str(package[10])
                                 print(package)
                         elif package[9] < timeStart:
                                 package[8] = "delivered"
+                                package[9] = "Picked up: " + str(package[9])
+                                package[10] = "Delivered: " + str(package[10])
                                 print(package)
                         else:
                                 package[8] = "in-route"
+                                package[9] = "Picked up: " + str(package[9])
+                                package[10] = "Delivered: " + str(package[10])
                                 print(package)
                                 
                         
