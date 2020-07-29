@@ -5,7 +5,7 @@ import datetime
 
 class Truck:
 
-    def __init__(self, hashmap, name, nodeArray):
+    def __init__(self, hashmap, name, nodeArray, originalAmount):
         self.currentLocation = "4001 South 700 East"
         
         self.packagesRemaining = []
@@ -17,6 +17,8 @@ class Truck:
         self.currentTime = currentTime
         self.hubLocation = "4001 South 700 East"
         self.name = name
+        self.counter = 0
+        self.originalAmount = originalAmount
         
 
     def getJob(self):
@@ -30,6 +32,7 @@ class Truck:
                 self.packagesRemaining.append(x)
         
         for i, x in enumerate(self.packagesRemaining):
+            
             self.allPackages.remove(x)
 
 
@@ -80,15 +83,15 @@ class Truck:
                     # loadedPackage[1] = x.location
                     # packagesHash.delete(loadedPackage[0])
                     # packagesHash.add(loadedPackage[0], loadedPackage)
-        if self.currentTime > datetime.timedelta(hours=9, minutes=5, seconds=00):
-            for x in self.packagesRemaining:
-                if x.id == '6' or x.id == '25' or x.id == '28' or x.id == '32':
-                    # x.location = '410 S State St'
-                    # print('Corrected address')
-                    loadedPackage = x
-                    # loadedPackage[1] = x.location
-                    # packagesHash.delete(loadedPackage.id)
-                    # packagesHash.add(loadedPackage.i, loadedPackage)
+        # if self.currentTime > datetime.timedelta(hours=9, minutes=5, seconds=00):
+        #     for x in self.packagesRemaining:
+        #         if x.id == '6' or x.id == '25' or x.id == '28' or x.id == '32':
+        #             # x.location = '410 S State St'
+        #             # print('Corrected address')
+        #             loadedPackage = x
+        #             # loadedPackage[1] = x.location
+        #             # packagesHash.delete(loadedPackage.id)
+        #             # packagesHash.add(loadedPackage.i, loadedPackage)
                 
         
 

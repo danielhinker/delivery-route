@@ -92,37 +92,47 @@ addPackages([29, 30, 31, 34, 37, 40, 5, 38], node_array_2)
 all_nodes.sort(key=getDistance)
 
 # Efficiency of this is O(n) since I have to iterate through an array and append each element to another array
-for i, node in enumerate(all_nodes):
+for i, node in enumerate(all_nodes[:]):
     if int(node.id) in [6,25,28,32]:
         pass
     elif i < 10:
-        node_array.append(node)
-        # addPackages([node.id], node_array)
+        addPackages([int(node.id)], node_array)
     else:
-        # addPackages([node.id], node_array_2)
-        node_array_2.append(node)
+        addPackages([int(node.id)], node_array_2)
+# addPackages([], node_array)
+
+
 
 originalAmount = len(node_array)
 originalAmount2 = len(node_array_2)
 
+def checkTime(truckObject):
+    if truckObject.currentTime > datetime.timedelta(hours=9, minutes=5, seconds=00) and truckObject.counter == 0:
+        addPackages([6,25,28,32], truckObject.allPackages)
+        
+        truckObject.goToHub()
+        # object.
+
 # Main function
-truck_1 = Truck(packagesHash, "Truck 1", node_array)
+truck_1 = Truck(packagesHash, "Truck 1", node_array, originalAmount)
 def startTruck_1():
     # truck_1.getJob(node_array)
     truck_1.getJob()
-    while len(truck_1.packagesFinished) != originalAmount:
+    while len(truck_1.packagesFinished) != truck_1.originalAmount:
+        
         if len(truck_1.packagesRemaining) != 0:
             truck_1.goToLocation()
         else:
             truck_1.goToHub()
 
 
-truck_2 = Truck(packagesHash, "Truck 2", node_array_2)
+truck_2 = Truck(packagesHash, "Truck 2", node_array_2, originalAmount2)
 def startTruck_2():
     
     # truck_2.getJob(node_array_2)
     truck_2.getJob()
-    while len(truck_2.packagesFinished) != originalAmount2:
+    while len(truck_2.packagesFinished) != truck_2.originalAmount:
+        # checkTime(truck_2)
         if len(truck_2.packagesRemaining) != 0:
             truck_2.goToLocation()
         else:
