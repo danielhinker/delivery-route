@@ -1,6 +1,5 @@
 # Daniel Hinker 001284172
 import csv
-import math
 import datetime
 
 from utils import currentTime, Node
