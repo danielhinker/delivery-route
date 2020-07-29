@@ -2,15 +2,18 @@
 class PackagesHashMap:
         
         # Initializes the hashmap
+        # O(n) since you would want the size to at the least match the number of packages and it has to create the many spaces in the hash table
         def __init__(self):
                 self.size = 250
                 self.map = [None] * self.size
 		
         # Creates a hash which determines where it is stored in the hashmap and helps with retrieval of it
+        # O(1) time complexity since all it does is return a value
         def _hasher(self, key):                
                 return hash(key) % self.size
 		
         # Add packages with the need of a key and a value to store it
+        # Time complexity is O(1) on average when theres no hash collisions and O(n) at worst if hashcollision occurs
         def add(self, key, value):
                 hashedKey = self._hasher(key)
                 key_value = [key, value]
@@ -27,6 +30,7 @@ class PackagesHashMap:
                         return True
 	
         # Gets packages using their package id
+        # Time complexity is O(1) on average when theres no hash collisions and O(n) at worst if hashcollision occurs
         def get(self, key):
                 hashedKey = self._hasher(key)
                 if self.map[hashedKey] != None:
@@ -36,6 +40,7 @@ class PackagesHashMap:
                 return None
 			
         # Removes packages from the hashmap
+        # Time complexity is O(1) on average when theres no hash collisions and O(n) at worst if hashcollision occurs
         def remove(self, key):
                 hashedKey = self._hasher(key)
 		
@@ -59,6 +64,7 @@ class PackagesHashMap:
                 return error
         
         # This function prints all the packages in the hashmap
+        # Time complexity is O(n) since it iterates through all the packages
         def all(self):
                 for x in range(1, 41):
                         # package = self.get(str(x))
@@ -66,12 +72,15 @@ class PackagesHashMap:
                         # print("Delivered: " + str(package[10]))
                         print(self.get(str(x)))
         
+        # This function is similar to the all function but only puts out the id and time
+        # Time complexity is O(n) since it iterates through all the packages
         def timeOnly(self):
                 for x in range(1,41):
                         package = self.get(str(x))
                         print("Package ID: " + package[0] + ", " + package[10])
         
         # This creates the screenshots of where the packages are at given times
+        # Time complexity is O(n) since it iterates through all the packages
         def timeDelivered(self, timeStart, timeEnd):
                 for x in range(1, 41):
                         package = self.get(str(x))

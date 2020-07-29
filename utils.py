@@ -10,4 +10,5 @@ class Node:
         self.location = location
         self.distance = distance
         
+# This initializes the starting time
 currentTime = datetime.timedelta(hours=8, minutes=00, seconds=00)
