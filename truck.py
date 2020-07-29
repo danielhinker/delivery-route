@@ -22,9 +22,6 @@ class Truck:
         
 
     def getJob(self):
-        # self.allPackages = packagesList
-        # print(len(packagesList))
-        
         for i, x in enumerate(self.allPackages[:]):
             
             if len(self.packagesRemaining) != 16:
@@ -37,8 +34,7 @@ class Truck:
         print(self.name)
         print("Current Location: " + startLocation)
         if endLocation == self.hubLocation:
-            # print("Going back to hub at 4001 South 700 East") 
-            pass
+            print("Going back to hub at 4001 South 700 East") 
         else:
             print("Going to: " + endLocation)
         distanceToLocation = searchDistance(startLocation, endLocation)
@@ -46,7 +42,6 @@ class Truck:
         timeTaken = float(distanceToLocation) / self.speed
         self.currentTime += datetime.timedelta(hours=timeTaken)
         print("Time After Drive: " + str(self.currentTime))
-        # print("Total distance: " + str(self.distance))
         self.currentLocation = endLocation
         
 
@@ -54,10 +49,7 @@ class Truck:
     def goToHub(self):
         
         self.drive(self.currentLocation, self.hubLocation)
-        
-        
         self.getJob()
-        
         self.recalculate()
         
     def checkNewPackages(self):
@@ -105,7 +97,6 @@ class Truck:
         self.packagesFinished.append(self.packagesRemaining.pop(0))
         
         print(self.currentTime)
-        # print("Finished delivering package")
       
     
     def getDistance(self, node):

@@ -2,7 +2,7 @@
 
 class PackagesHashMap:
         def __init__(self):
-                self.size = 50
+                self.size = 250
                 self.map = [None] * self.size
 		
         def _get_hash(self, key):
@@ -50,6 +50,8 @@ class PackagesHashMap:
                         if item is not None:
                                 if item[0][1][0] == packageId and item[0][1][1] == address and item[0][1][2] == city and item[0][1][3] == state and item[0][1][4] == zip and item[0][1][5] == delivery and item[0][1][6] == mass and item[0][1][8] == status:
                                         return item
+                error = "None Found"
+                return error
         
         def all(self):
                 for x in range(1, 41):
@@ -58,7 +60,6 @@ class PackagesHashMap:
         def timeDelivered(self, timeStart, timeEnd):
                 for x in range(1, 41):
                         package = self.get(str(x))
-                        # if package[9] < timeStart
                         if package[10] > timeEnd and package[9] > timeEnd:
                                 package[8] = "pending"
                                 print(package)
@@ -66,7 +67,6 @@ class PackagesHashMap:
                                 package[8] = "delivered"
                                 print(package)
                         else:
-                                # package[10] > timeStart and package[9] > timeEnd
                                 package[8] = "in-route"
                                 print(package)
                                 
