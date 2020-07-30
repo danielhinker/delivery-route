@@ -139,10 +139,10 @@ print("Time Finished: " + str(finishTime))
 # This block of code allows users to see an interface where they can input commands for the program
 # such as displaying the status of packages between certain times and searching for packages
 # O(n) time on average and O(n^2) at worst because it has to iterate through the packages and get from the hash table the information
-for x in range (1,41):
-    package = packagesHash.get(str(x))
-    package[9] = "Picked up: " + str(package[9])
-    package[10] = "Delivered: " + str(package[10])
+# for x in range (1,41):
+    # package = packagesHash.get(str(x))
+    # package[9] = "Picked up: " + str(package[9])
+    # package[10] = "Delivered: " + str(package[10])
 
 input1 = ''
 while input1 != 'end':

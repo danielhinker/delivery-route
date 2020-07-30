@@ -67,41 +67,42 @@ class PackagesHashMap:
         # Time complexity is O(n) since it iterates through all the packages
         def all(self):
                 for x in range(1, 41):
-                        # package = self.get(str(x))
-                        # print("Picked up: " + str(package[9]))
-                        # print("Delivered: " + str(package[10]))
+                        package = packagesHash.get(str(x))
+                        a = package[9]
+                        b = package[10]
+                        package[9] = "Picked up: " + str(package[9])
+                        package[10] = "Delivered: " + str(package[10])
                         print(self.get(str(x)))
+                        package[9] = a
+                        package[10] = b
         
         # This function is similar to the all function but only puts out the id and time
         # Time complexity is O(n) since it iterates through all the packages
         def timeOnly(self):
                 for x in range(1,41):
                         package = self.get(str(x))
-                        print("Package ID: " + package[0] + ", " + package[10])
+                        print("Package ID: " + package[0] + ", Delivered: " + str(package[10]))
         
         # This creates the screenshots of where the packages are at given times
         # Time complexity is O(n) since it iterates through all the packages
         def timeDelivered(self, timeStart, timeEnd):
                 for x in range(1, 41):
                         package = self.get(str(x))
-                        
-                        # print(package[9])
-                        # print(package[10])
-                        if package[9] > str(timeEnd) and package[10] > str(timeEnd):
+                        if package[9] > timeEnd and package[10] > timeEnd:
+                                a = package[8]
                                 package[8] = "pending"
-                                # print("Picked up: " + str(package[9]))
-                                # print("Delivered: " + str(package[10]))
                                 print(package)
-                        elif package[10] < str(timeStart):
+                                package[8] = a
+                        elif package[10] < timeStart:
+                                a = package[8]
                                 package[8] = "delivered"
-                                # print("Picked up: " + str(package[9]))
-                                # print("Delivered: " + str(package[10]))
                                 print(package)
+                                package[8] = a
                         else:
+                                a = package[8]
                                 package[8] = "in-route"
-                                # print("Picked up: " + str(package[9]))
-                                # print("Delivered: " + str(package[10]))
                                 print(package)
+                                package[8] = a
                                 
                         
 packagesHash = PackagesHashMap()
