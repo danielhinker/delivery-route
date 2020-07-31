@@ -55,11 +55,11 @@ class PackagesHashMap:
         # Search function to find individual packages
         # def search(self, packageId, address, city, state, zip, delivery, mass, status):
         def search(self, packageId):
-                for item in self.map:
-                        if item != None:
+                for x in self.map:
+                        if x != None:
                                 # if item[0][1][0] == packageId and item[0][1][1] == address and item[0][1][2] == city and item[0][1][3] == state and item[0][1][4] == zip and item[0][1][5] == delivery and item[0][1][6] == mass and item[0][1][8] == status:
-                                if item[0][0] == packageId:
-                                        return item
+                                if x[0][0] == packageId:
+                                        return x
                 error = "None Found"
                 return error
         

@@ -163,7 +163,14 @@ while input1 != 'end':
         # deliveryInput = input("Delivery Deadline: ")
         # weightInput = input("Weight: ")
         # statusInput = input("Status (Type pending, in-route, delivered): ")
-        print(packagesHash.search(packageInput)[0][1])
+        package = packagesHash.search(packageInput)[0][1]
+        a = package[9]
+        b = package[10]
+        package[9] = "Picked up: " + str(package[9])
+        package[10] = "Delivered: " + str(package[10])
+        print(package)
+        package[9] = a
+        package[10] = b
     elif input1 == "all":
         packagesHash.all()
     elif input1 == "time":
